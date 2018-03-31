@@ -14,9 +14,11 @@ import android.widget.Toast;
 
 import com.example.rynzler.literarum.models.Challenge;
 import com.example.rynzler.literarum.models.Theme;
+import com.example.rynzler.literarum.sisalfaservice.SisalfaMockService;
 import com.example.rynzler.literarum.sisalfaservice.SisalfaService;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -25,12 +27,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             firstHeart, secondHeart, thirdHeart;
     private TextView wordTV;
     private SisalfaService sisalfaService;
-    private GameManager gameManager;
+    private List<Integer> randomChallenges;
     private ConvertTextToSpeech convertTextToSpeech;
     private ProgressBar progressBar;
     private int progressStatus = 0;
     private int challengeTextViewID;
     private int heartCount = 0;
+    private String themeID;
 
 
     @Override
@@ -42,36 +45,38 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(new Intent(this, PopUp.class));
 
         //get the components reference from XML layout.
-        this.playIV = (ImageView) findViewById(R.id.btnPlay);
+        this.playIV = findViewById(R.id.btnPlay);
         playIV.setOnClickListener(this);
-        this.wordTV = (TextView) findViewById(R.id.textView);
-        this.firstIV = (ImageView) findViewById(R.id.firstIV);
+        this.wordTV = findViewById(R.id.textView);
+        this.firstIV = findViewById(R.id.firstIV);
         firstIV.setOnClickListener(this);
-        this.secondIV = (ImageView) findViewById(R.id.secondIV);
+        this.secondIV = findViewById(R.id.secondIV);
         secondIV.setOnClickListener(this);
-        this.thirdIV = (ImageView) findViewById(R.id.thirdIV);
+        this.thirdIV = findViewById(R.id.thirdIV);
         thirdIV.setOnClickListener(this);
-        this.helpIV = (ImageView) findViewById(R.id.btnHelp);
+        this.helpIV = findViewById(R.id.btnHelp);
         helpIV.setOnClickListener(this);
-        this.backIV = (ImageView) findViewById(R.id.btnBack);
+        this.backIV = findViewById(R.id.btnBack);
         backIV.setOnClickListener(this);
-        this.progressBar = (ProgressBar) findViewById(R.id.pb);
-        this.firstHeart = (ImageView) findViewById(R.id.imageView);
-        this.secondHeart = (ImageView) findViewById(R.id.imageView2);
-        this.thirdHeart = (ImageView) findViewById(R.id.imageView3);
+        this.progressBar = findViewById(R.id.pb);
+        this.firstHeart =findViewById(R.id.imageView);
+        this.secondHeart = findViewById(R.id.imageView2);
+        this.thirdHeart = findViewById(R.id.imageView3);
         this.convertTextToSpeech = new ConvertTextToSpeech();
-        this.gameManager = new GameManager();
+        this.sisalfaService = new SisalfaMockService();
+        this.randomChallenges = new ArrayList<>(3);
+
 
         progressBar.setMax(10);
 
 
 
         Intent it = getIntent();
-        String themeID = it.getStringExtra("theme");
+        this.themeID = it.getStringExtra("theme");
+
 
         try {
-            challengeTextViewID = gameManager.displayChallengeOnScreen(firstIV, secondIV, thirdIV,
-                    wordTV, "teste");
+            this.challengeTextViewID = displayChallengeOnScreen();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -122,8 +127,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             progressBar();
             Toast.makeText(getApplicationContext(), "Correto!", Toast.LENGTH_SHORT).show();
-            challengeTextViewID = challengeTextViewID = gameManager.displayChallengeOnScreen(firstIV, secondIV, thirdIV,
-                    wordTV, "teste");
+            challengeTextViewID = displayChallengeOnScreen();
         }
 
     }
@@ -148,6 +152,36 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             thirdHeart.setImageResource(android.R.color.transparent);
             heartCount = 0;
             startActivity(new Intent(this, LoseActivity.class));
+        }
+    }
+
+    private int displayChallengeOnScreen() throws RemoteException {
+        getRandom(themeID);
+        List<Challenge> challenges = sisalfaService.getChallengesByTheme(themeID);
+        firstIV.setImageResource(challenges.get(randomChallenges.get(0)).getImage());
+        firstIV.setTag(challenges.get(randomChallenges.get(0)).getImage());
+
+        secondIV.setImageResource(challenges.get(randomChallenges.get(1)).getImage());
+        secondIV.setTag(challenges.get(randomChallenges.get(1)).getImage());
+
+        thirdIV.setImageResource(challenges.get(randomChallenges.get(2)).getImage());
+        thirdIV.setTag(challenges.get(randomChallenges.get(2)).getImage());
+
+        int rnd = new Random().nextInt(3);
+        wordTV.setText(String.valueOf(challenges.get(randomChallenges.get(rnd)).getWord()));
+
+        return challenges.get(rnd).getImage();
+
+    }
+
+    private void getRandom(String themesId) throws RemoteException {
+        randomChallenges = new ArrayList<>(3);
+        for(int k = 0; k < 3; k++){
+            int rnd = new Random().nextInt(sisalfaService.getChallengesByTheme(themesId).size());
+            if(!randomChallenges.contains(rnd)){
+                randomChallenges.add(rnd);
+            }
+
         }
     }
 }

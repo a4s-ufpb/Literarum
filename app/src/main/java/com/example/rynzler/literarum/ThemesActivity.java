@@ -21,7 +21,6 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView homeIV;
     private ImageView colorsIV;
     private ImageView bodyIV;
-    private Theme theme;
 
 
     @Override
@@ -32,19 +31,20 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_themes);
         Typeface typeface = Typeface.createFromAsset(
                 getAssets(), "From Cartoon Blocks.ttf");
-        this.titleThemes = (TextView) findViewById(R.id.titleTheme);
+        this.titleThemes = findViewById(R.id.titleTheme);
         titleThemes.setTypeface(typeface);
-        this.fruitsIV = (ImageView) findViewById(R.id.fruitId);
+        this.fruitsIV = findViewById(R.id.fruitId);
         fruitsIV.setOnClickListener(this);
-        this.professionsIV = (ImageView) findViewById(R.id.professionsId);
+        this.professionsIV = findViewById(R.id.professionsId);
         professionsIV.setOnClickListener(this);
-        this.animalsIV = (ImageView) findViewById(R.id.animalsId);
+        this.animalsIV = findViewById(R.id.animalsId);
         animalsIV.setOnClickListener(this);
-        this.homeIV = (ImageView) findViewById(R.id.homeId);
+        this.homeIV = findViewById(R.id.homeId);
         homeIV.setOnClickListener(this);
-        this.bodyIV = (ImageView) findViewById(R.id.bodyId);
+        this.bodyIV =  findViewById(R.id.bodyId);
         bodyIV.setOnClickListener(this);
-        this.colorsIV = (ImageView) findViewById(R.id.colorsId);
+        this.colorsIV = findViewById(R.id.colorsId);
+        colorsIV.setOnClickListener(this);
 
     }
 
