@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/colorPrimary"
-    tools:context="com.example.rynzler.literarum.ContextsActivity">
+    tools:context="com.example.rynzler.literarum.ThemesActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

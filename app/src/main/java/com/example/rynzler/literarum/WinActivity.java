@@ -25,7 +25,7 @@ public class WinActivity extends AppCompatActivity implements Runnable {
 
     @Override
     public void run() {
-        startActivity(new Intent(this, ContextsActivity.class));
+        startActivity(new Intent(this, ThemesActivity.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }

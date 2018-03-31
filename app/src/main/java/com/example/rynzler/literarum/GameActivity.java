@@ -1,28 +1,22 @@
 package com.example.rynzler.literarum;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.os.Handler;
+import android.os.RemoteException;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
+import com.example.rynzler.literarum.models.Challenge;
+import com.example.rynzler.literarum.models.Theme;
+import com.example.rynzler.literarum.sisalfaservice.SisalfaService;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -30,13 +24,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView playIV, firstIV, secondIV, thirdIV, helpIV, backIV,
             firstHeart, secondHeart, thirdHeart;
     private TextView wordTV;
-    private GameTheme gameTheme;
-    private ArrayList<Word> gameWords;
-    private TextToSpeech tts;
+    private SisalfaService sisalfaService;
+    private GameManager gameManager;
+    private ConvertTextToSpeech convertTextToSpeech;
     private ProgressBar progressBar;
     private int progressStatus = 0;
-    private int idTextView;
-    private int result;
+    private int challengeTextViewID;
     private int heartCount = 0;
 
 
@@ -46,6 +39,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
+        startActivity(new Intent(this, PopUp.class));
 
         //get the components reference from XML layout.
         this.playIV = (ImageView) findViewById(R.id.btnPlay);
@@ -65,21 +59,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         this.firstHeart = (ImageView) findViewById(R.id.imageView);
         this.secondHeart = (ImageView) findViewById(R.id.imageView2);
         this.thirdHeart = (ImageView) findViewById(R.id.imageView3);
+        this.convertTextToSpeech = new ConvertTextToSpeech();
+        this.gameManager = new GameManager();
 
-
-        startActivity(new Intent(this, PopUp.class));
-        Intent it = getIntent();
-
-        gameWords = (ArrayList<Word>) it.getSerializableExtra("theme");
-        gameTheme = new GameTheme("Theme", 1, gameWords);
-        idTextView = insertImageAndText();
-        initTextToSpeech();
         progressBar.setMax(10);
 
 
-        /*byte[] byteArray = it.getByteArrayExtra("IMAGEM");
-        Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        imageQuadro.setImageBitmap(bmp);*/
+
+        Intent it = getIntent();
+        String themeID = it.getStringExtra("theme");
+
+        try {
+            challengeTextViewID = gameManager.displayChallengeOnScreen(firstIV, secondIV, thirdIV,
+                    wordTV, "teste");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -90,93 +85,45 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, PopUp.class));
                 break;
             case R.id.btnPlay:
-                speakOut();
+                convertTextToSpeech.speakOut(wordTV.getText().toString());
                 break;
             case R.id.btnBack:
-                startActivity(new Intent(this, ContextsActivity.class));
+                startActivity(new Intent(this, ThemesActivity.class));
                 break;
             case R.id.firstIV:
-                checkAnswer((Integer) firstIV.getTag());
+                try {
+                    checkAnswer((Integer) firstIV.getTag());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.secondIV:
-                checkAnswer((Integer) secondIV.getTag());
+                try {
+                    checkAnswer((Integer) secondIV.getTag());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.thirdIV:
-                checkAnswer((Integer) thirdIV.getTag());
+                try {
+                    checkAnswer((Integer) thirdIV.getTag());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
 
     }
 
-    private void speakOut(){
-        if (result == TextToSpeech.LANG_MISSING_DATA ||
-                result == TextToSpeech.LANG_NOT_SUPPORTED) {
-            Toast.makeText(getApplicationContext(), "Feature not supported " +
-                    "in your device.", Toast.LENGTH_SHORT);
-        }else{
-            String text = wordTV.getText().toString();
-            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-        }
-
-    }
-
-    private void initTextToSpeech(){
-        tts = new TextToSpeech(GameActivity.this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status == TextToSpeech.SUCCESS)
-                    result = tts.setLanguage(Locale.US);
-                else{
-                    Toast.makeText(getApplicationContext(), "Feature not supported" +
-                            "in your device..", Toast.LENGTH_SHORT);
-                }
-            }
-
-        });
-    }
-
-    private int insertImageAndText(){
-        int[] array = new int[3];
-        int random = 0, randomTemp = 0;
-
-        random = getRandom();
-        array[0] = random;
-        randomTemp = random;
-        firstIV.setImageResource(gameWords.get(random).getImageId());
-        firstIV.setTag((gameWords.get(random).getImageId()));
-        random = getRandom();
-        if(random == randomTemp){
-            random = getRandom();
-            randomTemp = random;
-        }array[1] = random;
-        secondIV.setImageResource(gameWords.get(random).getImageId());
-        secondIV.setTag((gameWords.get(random).getImageId()));
-        random = getRandom();
-        if(random == randomTemp){
-            random = getRandom();
-        }array[2] = random;
-        thirdIV.setImageResource(gameWords.get(random).getImageId());
-        thirdIV.setTag((gameWords.get(random).getImageId()));
-        int rnd = new Random().nextInt(array.length);
-        wordTV.setText(String.valueOf(gameWords.get(array[rnd]).getName()));
-        return gameWords.get(array[rnd]).getImageId();
-
-    }
-
-
-    private int getRandom(){
-        int rnd = new Random().nextInt(gameTheme.getWords().size());
-        return rnd;
-    }
-
-    private void checkAnswer(int id){
-        if(id != idTextView){
+    private void checkAnswer(int id) throws RemoteException {
+        if(id != challengeTextViewID){
             clearHeartView();
             Toast.makeText(getApplicationContext(), "Errado!", Toast.LENGTH_SHORT).show();
         }else{
             progressBar();
             Toast.makeText(getApplicationContext(), "Correto!", Toast.LENGTH_SHORT).show();
-            idTextView = insertImageAndText();
+            challengeTextViewID = challengeTextViewID = gameManager.displayChallengeOnScreen(firstIV, secondIV, thirdIV,
+                    wordTV, "teste");
         }
 
     }

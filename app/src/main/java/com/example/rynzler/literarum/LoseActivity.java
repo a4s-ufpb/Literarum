@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.WindowManager;
 
 public class LoseActivity extends AppCompatActivity implements Runnable{
 
@@ -26,7 +25,7 @@ public class LoseActivity extends AppCompatActivity implements Runnable{
 
     @Override
     public void run() {
-        startActivity(new Intent(this, ContextsActivity.class));
+        startActivity(new Intent(this, ThemesActivity.class));
         overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         finish();
     }
