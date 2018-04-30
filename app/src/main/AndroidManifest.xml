@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".GameActivity"
+            android:name="br.ufpb.dcx.sisalfa.GameActivity"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".ThemesActivity" />
+        <activity android:name="br.ufpb.dcx.sisalfa.ThemesActivity" />
         <activity
-            android:name=".SplashActivity"
+            android:name="br.ufpb.dcx.sisalfa.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,10 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PopUp"
+            android:name="br.ufpb.dcx.sisalfa.PopUp"
             android:theme="@style/AppTheme.CustomTheme" />
-        <activity android:name=".WinActivity" />
-        <activity android:name=".LoseActivity"></activity>
+        <activity android:name="br.ufpb.dcx.sisalfa.WinActivity" />
+        <activity android:name="br.ufpb.dcx.sisalfa.LoseActivity"></activity>
     </application>
 
 </manifest>
