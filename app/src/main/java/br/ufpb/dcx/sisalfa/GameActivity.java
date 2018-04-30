@@ -17,7 +17,7 @@ import com.example.rynzler.literarum.R;
 import br.ufpb.dcx.sisalfa.models.Challenge;
 import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaMockService;
 import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaService;
-import br.ufpb.dcx.sisalfa.util.TextToSpeeUtils;
+import br.ufpb.dcx.sisalfa.util.AndroidUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +94,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, PopUp.class));
                 break;
             case R.id.btnPlay:
-                TextToSpeeUtils.speakOut(String.valueOf(wordTV.getText()),
+                AndroidUtils.speakOut(String.valueOf(wordTV.getText()),
                         result,
                         getApplicationContext(),
                         textToSpeech);
@@ -183,10 +183,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void randomChallenges(String themesId) throws RemoteException {
-        challenges = new ArrayList<>(3);
         for(int k = 0; k < 3;){
-            int rnd = new Random().nextInt(sisalfaService.getChallengesByContext(themesId).size());
-            if(!challenges.contains(rnd)){
+            int rnd = new Random()
+                    .nextInt(sisalfaService
+                            .getChallengesByContext(themesId)
+                            .size());
+
+            if (!challenges.contains(rnd)) {
                 challenges.add(rnd);
                 k++;
             }
@@ -195,7 +198,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void textToSpeechConverter(){
-        this.textToSpeech = new TextToSpeech(GameActivity.this, new TextToSpeech.OnInitListener() {
+        textToSpeech = new TextToSpeech(GameActivity.this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS)
@@ -207,6 +210,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
 
         });
-        this.result = 0;
+        result = 0;
     }
 }

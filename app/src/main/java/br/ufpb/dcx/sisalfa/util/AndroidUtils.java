@@ -4,7 +4,9 @@ import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.widget.Toast;
 
-public class TextToSpeeUtils {
+
+
+public class AndroidUtils {
 
 
     public static void speakOut(String text, int result, Context ctx, TextToSpeech tts){
@@ -14,4 +16,7 @@ public class TextToSpeeUtils {
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
 
     }
+
+
+
 }
