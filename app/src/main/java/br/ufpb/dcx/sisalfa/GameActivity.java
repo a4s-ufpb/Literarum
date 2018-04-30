@@ -2,6 +2,7 @@ package br.ufpb.dcx.sisalfa;
 
 import android.content.Intent;
 import android.os.RemoteException;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,9 +17,11 @@ import com.example.rynzler.literarum.R;
 import br.ufpb.dcx.sisalfa.models.Challenge;
 import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaMockService;
 import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaService;
+import br.ufpb.dcx.sisalfa.util.TextToSpeeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
@@ -27,12 +30,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private TextView wordTV;
     private SisalfaService sisalfaService;
     private List<Integer> challenges;
-    private TextToSpeeConverter textToSpeeConverter;
     private ProgressBar progressBar;
     private int progressStatus = 0;
     private int challengeTextViewID;
     private int heartCount = 0;
     private String themeID;
+    private TextToSpeech textToSpeech;
+    private int result;
 
 
     @Override
@@ -61,7 +65,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         this.firstHeart =findViewById(R.id.imageView);
         this.secondHeart = findViewById(R.id.imageView2);
         this.thirdHeart = findViewById(R.id.imageView3);
-        this.textToSpeeConverter = new TextToSpeeConverter();
         this.sisalfaService = new SisalfaMockService();
         this.challenges = new ArrayList<>(3);
 
@@ -80,6 +83,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
+        textToSpeechConverter();
+
     }
 
     @Override
@@ -89,7 +94,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, PopUp.class));
                 break;
             case R.id.btnPlay:
-                textToSpeeConverter.speakOut(wordTV.getText().toString());
+                TextToSpeeUtils.speakOut(String.valueOf(wordTV.getText()),
+                        result,
+                        getApplicationContext(),
+                        textToSpeech);
                 break;
             case R.id.btnBack:
                 startActivity(new Intent(this, ThemesActivity.class));
@@ -168,8 +176,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         int rnd = new Random().nextInt(3);
         wordTV.setText(String.valueOf(challengesAux.get(challenges.get(rnd)).getWord()));
+        int imageIdentifier = challengesAux.get(rnd).getImage();
 
-        return challengesAux.get(rnd).getImage();
+        return imageIdentifier;
 
     }
 
@@ -183,5 +192,21 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             }
 
         }
+    }
+
+    private void textToSpeechConverter(){
+        this.textToSpeech = new TextToSpeech(GameActivity.this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status == TextToSpeech.SUCCESS)
+                    result = textToSpeech.setLanguage(Locale.US);
+                else{
+                    Toast.makeText(getApplicationContext(), "Feature not supported " + "in your device.", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+        });
+        this.result = 0;
     }
 }

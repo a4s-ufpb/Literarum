@@ -31,7 +31,7 @@ public class TextToSpeeConverter extends Activity{
     }
 
 
-    public void speakOut(String text){
+    public void speakOut(String text, int result){
         if (result == TextToSpeech.LANG_MISSING_DATA ||result == TextToSpeech.LANG_NOT_SUPPORTED)
             Toast.makeText(getApplicationContext(), "Feature not supported " + "in your device.", Toast.LENGTH_SHORT).show();
         else
