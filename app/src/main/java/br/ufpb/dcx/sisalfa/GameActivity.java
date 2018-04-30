@@ -26,7 +26,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             firstHeart, secondHeart, thirdHeart;
     private TextView wordTV;
     private SisalfaService sisalfaService;
-    private List<Integer> randomChallenges;
+    private List<Integer> challenges;
     private TextToSpeeConverter textToSpeeConverter;
     private ProgressBar progressBar;
     private int progressStatus = 0;
@@ -63,7 +63,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         this.thirdHeart = findViewById(R.id.imageView3);
         this.textToSpeeConverter = new TextToSpeeConverter();
         this.sisalfaService = new SisalfaMockService();
-        this.randomChallenges = new ArrayList<>(3);
+        this.challenges = new ArrayList<>(3);
 
 
         progressBar.setMax(10);
@@ -155,30 +155,30 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private int displayChallengeOnScreen() throws RemoteException {
-        getRandom(themeID);
-        List<Challenge> challenges = sisalfaService.getChallengesByTheme(themeID);
-        firstIV.setImageResource(challenges.get(randomChallenges.get(0)).getImage());
-        firstIV.setTag(challenges.get(randomChallenges.get(0)).getImage());
+        randomChallenges(themeID);
+        List<Challenge> challengesAux = sisalfaService.getChallengesByTheme(themeID);
+        firstIV.setImageResource(challengesAux.get(challenges.get(0)).getImage());
+        firstIV.setTag(challengesAux.get(challenges.get(0)).getImage());
 
-        secondIV.setImageResource(challenges.get(randomChallenges.get(1)).getImage());
-        secondIV.setTag(challenges.get(randomChallenges.get(1)).getImage());
+        secondIV.setImageResource(challengesAux.get(challenges.get(1)).getImage());
+        secondIV.setTag(challengesAux.get(challenges.get(1)).getImage());
 
-        thirdIV.setImageResource(challenges.get(randomChallenges.get(2)).getImage());
-        thirdIV.setTag(challenges.get(randomChallenges.get(2)).getImage());
+        thirdIV.setImageResource(challengesAux.get(challenges.get(2)).getImage());
+        thirdIV.setTag(challengesAux.get(challenges.get(2)).getImage());
 
         int rnd = new Random().nextInt(3);
-        wordTV.setText(String.valueOf(challenges.get(randomChallenges.get(rnd)).getWord()));
+        wordTV.setText(String.valueOf(challengesAux.get(challenges.get(rnd)).getWord()));
 
-        return challenges.get(rnd).getImage();
+        return challengesAux.get(rnd).getImage();
 
     }
 
-    private void getRandom(String themesId) throws RemoteException {
-        randomChallenges = new ArrayList<>(3);
+    private void randomChallenges(String themesId) throws RemoteException {
+        challenges = new ArrayList<>(3);
         for(int k = 0; k < 3;){
             int rnd = new Random().nextInt(sisalfaService.getChallengesByTheme(themesId).size());
-            if(!randomChallenges.contains(rnd)){
-                randomChallenges.add(rnd);
+            if(!challenges.contains(rnd)){
+                challenges.add(rnd);
                 k++;
             }
 
