@@ -16,7 +16,7 @@ import java.util.List;
 public class SisalfaMockService implements  SisalfaService{
     private List<User> users;
     private List<Challenge> challenges;
-    private List<Theme> themes;
+    private List<Theme> contexts;
     private static int nextUserId = 0;
     private static int nextChallengeId = 0;
     private static int nextContextId = 0;
@@ -40,30 +40,30 @@ public class SisalfaMockService implements  SisalfaService{
     public SisalfaMockService() {
         this.users = new ArrayList<User>();
         this.challenges = new ArrayList<Challenge>();
-        this.themes = new ArrayList<Theme>();
+        this.contexts = new ArrayList<Theme>();
     }
     @Override
-    public String addTheme(Theme theme) throws DataAlreadyExistsException {
-        if (this.themes.contains(theme)) {
+    public String addContext(Theme theme) throws DataAlreadyExistsException {
+        if (this.contexts.contains(theme)) {
             throw new DataAlreadyExistsException();
         } else {
             if (theme.getThemeId().equals(Theme.DEFAULT_CONTEXT_ID)) {
                 theme.setThemeId(getNextContextId());
             }
-            this.themes.add(theme);
+            this.contexts.add(theme);
             return theme.getThemeId();
         }
     }
 
     @Override
-    public List<Theme> getAllThemes() {
-        return this.themes;
+    public List<Theme> getAllContexts() {
+        return this.contexts;
     }
 
     @Override
-    public List<Theme> getAllThemesOfUser(String idUser) {
+    public List<Theme> getAllContextsOfUser(String idUser) {
         List<Theme> themesOfUser = new ArrayList<Theme>();
-        for (Theme c: this.themes) {
+        for (Theme c: this.contexts) {
             if (c.getUserId().equals(idUser)) {
                 themesOfUser.add(c);
             }
@@ -71,8 +71,8 @@ public class SisalfaMockService implements  SisalfaService{
         return themesOfUser;
     }
     @Override
-    public Theme getTheme(String idTheme) {
-        for (Theme c: this.themes) {
+    public Theme getContext(String idTheme) {
+        for (Theme c: this.contexts) {
             if (c.getThemeId().equals(idTheme)) {
                 return c;
             }
@@ -80,21 +80,21 @@ public class SisalfaMockService implements  SisalfaService{
         return null;
     }
     @Override
-    public void updateTheme(Theme theme) throws DataNotFoundException {
-        for (Theme c: this.themes) {
+    public void updateContext(Theme theme) throws DataNotFoundException {
+        for (Theme c: this.contexts) {
             if (c.getThemeId().equals(theme.getThemeId())) {
-                this.themes.remove(c);
-                this.themes.add(theme);
+                this.contexts.remove(c);
+                this.contexts.add(theme);
                 return;
             }
         }
         throw new DataNotFoundException("Context not found. Id:"+theme.getThemeId());
     }
     @Override
-    public void deleteTheme(String idContext) throws DataNotFoundException{
-        for (Theme c: this.themes) {
+    public void deleteContext(String idContext) throws DataNotFoundException{
+        for (Theme c: this.contexts) {
             if (c.getThemeId().equals(idContext) ) {
-                this.themes.remove(c);
+                this.contexts.remove(c);
                 return;
             }
         }
@@ -148,10 +148,10 @@ public class SisalfaMockService implements  SisalfaService{
         throw new DataNotFoundException("Challenge not found. Id:"+idChallenge);
     }
     @Override
-    public List<Challenge> getChallengesByTheme(String idContext) {
+    public List<Challenge> getChallengesByContext(String idContext) {
         List<Challenge> challengesByContext = new ArrayList<Challenge>();
         for (Challenge c: this.challenges) {
-            if (c.getThemeId().equals(idContext)) {
+            if (c.getContextId().equals(idContext)) {
                 challengesByContext.add(c);
             }
         }

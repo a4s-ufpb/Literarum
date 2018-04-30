@@ -156,7 +156,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private int displayChallengeOnScreen() throws RemoteException {
         randomChallenges(themeID);
-        List<Challenge> challengesAux = sisalfaService.getChallengesByTheme(themeID);
+        List<Challenge> challengesAux = sisalfaService.getChallengesByContext(themeID);
         firstIV.setImageResource(challengesAux.get(challenges.get(0)).getImage());
         firstIV.setTag(challengesAux.get(challenges.get(0)).getImage());
 
@@ -176,7 +176,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private void randomChallenges(String themesId) throws RemoteException {
         challenges = new ArrayList<>(3);
         for(int k = 0; k < 3;){
-            int rnd = new Random().nextInt(sisalfaService.getChallengesByTheme(themesId).size());
+            int rnd = new Random().nextInt(sisalfaService.getChallengesByContext(themesId).size());
             if(!challenges.contains(rnd)){
                 challenges.add(rnd);
                 k++;

@@ -8,7 +8,7 @@ public class Challenge{
     private String word;
     private String challengeId;
     private String userId;
-    private String themeId;
+    private String contextId;
     private String sound;
     private String videoUrl;
     private int image;
@@ -22,13 +22,13 @@ public class Challenge{
         this(DEFAULT_CHALLENGE_WORD, DEFAULT_CHALLENGE_ID, User.DEFAULT_USER_ID, Theme.DEFAULT_CONTEXT_ID, 0, null, null);
     }
 
-    public Challenge(String word,String challengeId, String userId, String themeId, int image,
+    public Challenge(String word,String challengeId, String userId, String contextId, int image,
     String sound, String videoUrl) {
         super();
         this.word = word;
         this.challengeId = challengeId;
         this.userId = userId;
-        this.themeId =themeId;
+        this.contextId = contextId;
         this.image = image;
         this.sound = sound;
         this.videoUrl = videoUrl;
@@ -63,13 +63,13 @@ public class Challenge{
     }
 
 
-    public String getThemeId() {
-        return themeId;
+    public String getContextId() {
+        return contextId;
     }
 
 
-    public void setThemeId(String themeId) {
-        this.themeId = themeId;
+    public void setContextId(String contextId) {
+        this.contextId = contextId;
     }
 
 
@@ -97,8 +97,8 @@ public class Challenge{
 
     @Override
     public String toString() {
-        return "Challenge [word=" + word + ", challengeId=" + challengeId + ", userId=" + userId + ", themeId="
-                + themeId + ", sound=" + sound + ", videoUrl=" + videoUrl + ", image=" + image + "]";
+        return "Challenge [word=" + word + ", challengeId=" + challengeId + ", userId=" + userId + ", contextId="
+                + contextId + ", sound=" + sound + ", videoUrl=" + videoUrl + ", image=" + image + "]";
     }
 
     @Override

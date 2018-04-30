@@ -25,57 +25,57 @@ public interface SisalfaService {
      *                                    service.
      * @throws DataAlreadyExistsException when the Theme being added already exists.
      */
-    public String addTheme(Theme context) throws RemoteException, DataAlreadyExistsException;
+    public String addContext(Theme context) throws RemoteException, DataAlreadyExistsException;
 
     /**
-     * Returns a list with all theme.
+     * Returns a list with all context.
      *
-     * @return a list with all theme.
+     * @return a list with all context.
      * @throws RemoteException if there is any communication problem with the
      *                         service.
      */
-    public List<Theme> getAllThemes() throws RemoteException;
+    public List<Theme> getAllContexts() throws RemoteException;
 
     /**
-     * Returns a list with all themes created by a given user.
+     * Returns a list with all contexts created by a given user.
      *
      * @param idUser The id of the user.
      * @return a list with all themes created by a user.
      * @throws RemoteException if there is any communication problem with the
      *                         service.
      */
-    public List<Theme> getAllThemesOfUser(String idUser) throws RemoteException;
+    public List<Theme> getAllContextsOfUser(String idUser) throws RemoteException;
 
     /**
-     * Gets a given Theme.
+     * Gets a given Context.
      *
-     * @param idTheme The id of a Theme.
+     * @param idTheme The id of a Context.
      * @return The Theme identified by a given id.
      * @throws RemoteException       if there is any communication problem with the
      *                               service.
      * @throws DataNotFoundException when the Theme being searched is not found.
      */
-    public Theme getTheme(String idTheme) throws RemoteException, DataNotFoundException;
+    public Theme getContext(String idTheme) throws RemoteException, DataNotFoundException;
 
     /**
-     * Updates a given Theme.
+     * Updates a given Context.
      *
-     * @param theme The Theme with updated information.
+     * @param theme The Context with updated information.
      * @throws RemoteException       if there is any communication problem with the
      *                               service.
      * @throws DataNotFoundException when the Theme being updated is not found.
      */
-    public void updateTheme(Theme theme) throws RemoteException, DataNotFoundException;
+    public void updateContext(Theme theme) throws RemoteException, DataNotFoundException;
 
     /**
-     * Deletes a certain Theme.
+     * Deletes a certain Context.
      *
-     * @param idTheme The id of the Theme to be deleted.
+     * @param idTheme The id of the Context to be deleted.
      * @throws RemoteException       if there is any communication problem with the
      *                               service.
      * @throws DataNotFoundException when the Theme being deleted is not found.
      */
-    public void deleteTheme(String idTheme) throws RemoteException, DataNotFoundException;
+    public void deleteContext(String idTheme) throws RemoteException, DataNotFoundException;
 
     /**
      * Inserts a new Challenge.
@@ -135,7 +135,7 @@ public interface SisalfaService {
      * @throws RemoteException if there is any communication problem with the
      *                         service.
      */
-    public List<Challenge> getChallengesByTheme(String idTheme) throws RemoteException;
+    public List<Challenge> getChallengesByContext(String idTheme) throws RemoteException;
 
     /**
      * Deletes a certain Challenge.
