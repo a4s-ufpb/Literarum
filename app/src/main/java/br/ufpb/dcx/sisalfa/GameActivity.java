@@ -25,6 +25,9 @@ import java.util.Locale;
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
+
+    public static final String FEATURE_NOT_SUPPORTED = "Feature not supported in your device.";
+
     private ImageView playIV, firstIV, secondIV, thirdIV, helpIV, backIV,
             firstHeart, secondHeart, thirdHeart;
     private TextView wordTV;
@@ -61,6 +64,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         helpIV.setOnClickListener(this);
         this.backIV = findViewById(R.id.btnBack);
         backIV.setOnClickListener(this);
+
+
+
         this.progressBar = findViewById(R.id.pb);
         this.firstHeart =findViewById(R.id.imageView);
         this.secondHeart = findViewById(R.id.imageView2);
@@ -70,7 +76,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
         progressBar.setMax(10);
-
+        textToSpeechConverter();
 
 
         Intent it = getIntent();
@@ -83,7 +89,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-        textToSpeechConverter();
+
 
     }
 
@@ -204,7 +210,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 if(status == TextToSpeech.SUCCESS)
                     result = textToSpeech.setLanguage(Locale.US);
                 else{
-                    Toast.makeText(getApplicationContext(), "Feature not supported " + "in your device.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), FEATURE_NOT_SUPPORTED, Toast.LENGTH_SHORT).show();
 
                 }
             }

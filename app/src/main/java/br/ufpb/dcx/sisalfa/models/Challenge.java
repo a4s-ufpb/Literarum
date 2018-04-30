@@ -5,6 +5,7 @@ package br.ufpb.dcx.sisalfa.models;
  */
 
 public class Challenge{
+
     private String word;
     private String challengeId;
     private String userId;
