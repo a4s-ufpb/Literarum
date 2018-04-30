@@ -27,7 +27,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private TextView wordTV;
     private SisalfaService sisalfaService;
     private List<Integer> randomChallenges;
-    private ConvertTextToSpeech convertTextToSpeech;
+    private TextToSpeeConverter textToSpeeConverter;
     private ProgressBar progressBar;
     private int progressStatus = 0;
     private int challengeTextViewID;
@@ -61,7 +61,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         this.firstHeart =findViewById(R.id.imageView);
         this.secondHeart = findViewById(R.id.imageView2);
         this.thirdHeart = findViewById(R.id.imageView3);
-        this.convertTextToSpeech = new ConvertTextToSpeech();
+        this.textToSpeeConverter = new TextToSpeeConverter();
         this.sisalfaService = new SisalfaMockService();
         this.randomChallenges = new ArrayList<>(3);
 
@@ -89,7 +89,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, PopUp.class));
                 break;
             case R.id.btnPlay:
-                convertTextToSpeech.speakOut(wordTV.getText().toString());
+                textToSpeeConverter.speakOut(wordTV.getText().toString());
                 break;
             case R.id.btnBack:
                 startActivity(new Intent(this, ThemesActivity.class));

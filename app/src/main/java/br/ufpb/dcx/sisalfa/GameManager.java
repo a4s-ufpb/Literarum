@@ -20,12 +20,12 @@ import java.util.Random;
 public class GameManager extends Activity{
 
     private SisalfaService sisalfaService;
-    private ConvertTextToSpeech convertTextToSpeech;
+    private TextToSpeeConverter textToSpeeConverter;
     private List<Integer> randomChallenges;
 
     public GameManager(){
         this.sisalfaService = new SisalfaMockService();
-        this.convertTextToSpeech = new ConvertTextToSpeech();
+        this.textToSpeeConverter = new TextToSpeeConverter();
         this.randomChallenges = new ArrayList<Integer>(3);
     }
 

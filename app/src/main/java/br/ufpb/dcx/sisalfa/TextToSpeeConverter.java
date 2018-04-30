@@ -9,13 +9,13 @@ import java.util.Locale;
  * Created by rynzler on 30/03/18.
  */
 
-public class ConvertTextToSpeech extends Activity{
+public class TextToSpeeConverter extends Activity{
 
     private TextToSpeech textToSpeech;
     private int result;
 
-    public ConvertTextToSpeech(){
-        this.textToSpeech = new TextToSpeech(ConvertTextToSpeech.this, new TextToSpeech.OnInitListener() {
+    public TextToSpeeConverter(){
+        this.textToSpeech = new TextToSpeech(TextToSpeeConverter.this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status == TextToSpeech.SUCCESS)
