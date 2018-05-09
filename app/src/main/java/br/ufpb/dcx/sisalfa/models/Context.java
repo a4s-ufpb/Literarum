@@ -6,7 +6,7 @@ import java.util.List;
  * Created by rynzler on 18/02/18.
  */
 
-public class Theme {
+public class Context {
     private String name;
     private String themeId;
     private String userId;
@@ -18,11 +18,11 @@ public class Theme {
     public static final String DEFAULT_CONTEXT_ID = "-1";
 
     private List<Challenge> challenges;
-    public Theme() {
+    public Context() {
         this(DEFAULT_CONTEXT_NAME, DEFAULT_CONTEXT_ID, User.DEFAULT_USER_ID, null,null,null);
     }
 
-    public Theme(String name, String themeId, String userId, String image, String sound, String videoUrl) {
+    public Context(String name, String themeId, String userId, String image, String sound, String videoUrl) {
         this.name = name;
         this.themeId = themeId;
         this.userId = userId;
@@ -95,7 +95,7 @@ public class Theme {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Theme other = (Theme) obj;
+        Context other = (Context) obj;
         if (themeId == null) {
             if (other.themeId != null)
                 return false;

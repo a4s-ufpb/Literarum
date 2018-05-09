@@ -1,9 +1,9 @@
 package br.ufpb.dcx.sisalfa.sisalfaservice;
 
+import br.ufpb.dcx.sisalfa.models.Context;
 import br.ufpb.dcx.sisalfa.models.DataAlreadyExistsException;
 import br.ufpb.dcx.sisalfa.models.DataNotFoundException;
 import br.ufpb.dcx.sisalfa.models.Challenge;
-import br.ufpb.dcx.sisalfa.models.Theme;
 import br.ufpb.dcx.sisalfa.models.User;
 
 import java.util.ArrayList;
@@ -14,9 +14,9 @@ import java.util.List;
  */
 
 public class SisalfaMockService implements  SisalfaService{
-    private List<User> users;
-    private List<Challenge> challenges;
-    private List<Theme> contexts;
+    protected List<User> users;
+    protected List<Challenge> challenges;
+    protected List<Context> contexts;
     private static int nextUserId = 0;
     private static int nextChallengeId = 0;
     private static int nextContextId = 0;
@@ -40,30 +40,30 @@ public class SisalfaMockService implements  SisalfaService{
     public SisalfaMockService() {
         this.users = new ArrayList<User>();
         this.challenges = new ArrayList<Challenge>();
-        this.contexts = new ArrayList<Theme>();
+        this.contexts = new ArrayList<Context>();
     }
     @Override
-    public String addContext(Theme theme) throws DataAlreadyExistsException {
-        if (this.contexts.contains(theme)) {
+    public String addContext(Context context) throws DataAlreadyExistsException {
+        if (this.contexts.contains(context)) {
             throw new DataAlreadyExistsException();
         } else {
-            if (theme.getThemeId().equals(Theme.DEFAULT_CONTEXT_ID)) {
-                theme.setThemeId(getNextContextId());
+            if (context.getThemeId().equals(Context.DEFAULT_CONTEXT_ID)) {
+                context.setThemeId(getNextContextId());
             }
-            this.contexts.add(theme);
-            return theme.getThemeId();
+            this.contexts.add(context);
+            return context.getThemeId();
         }
     }
 
     @Override
-    public List<Theme> getAllContexts() {
+    public List<Context> getAllContexts() {
         return this.contexts;
     }
 
     @Override
-    public List<Theme> getAllContextsOfUser(String idUser) {
-        List<Theme> themesOfUser = new ArrayList<Theme>();
-        for (Theme c: this.contexts) {
+    public List<Context> getAllContextsOfUser(String idUser) {
+        List<Context> themesOfUser = new ArrayList<Context>();
+        for (Context c: this.contexts) {
             if (c.getUserId().equals(idUser)) {
                 themesOfUser.add(c);
             }
@@ -71,8 +71,8 @@ public class SisalfaMockService implements  SisalfaService{
         return themesOfUser;
     }
     @Override
-    public Theme getContext(String idTheme) {
-        for (Theme c: this.contexts) {
+    public Context getContext(String idTheme) {
+        for (Context c: this.contexts) {
             if (c.getThemeId().equals(idTheme)) {
                 return c;
             }
@@ -80,19 +80,19 @@ public class SisalfaMockService implements  SisalfaService{
         return null;
     }
     @Override
-    public void updateContext(Theme theme) throws DataNotFoundException {
-        for (Theme c: this.contexts) {
-            if (c.getThemeId().equals(theme.getThemeId())) {
+    public void updateContext(Context context) throws DataNotFoundException {
+        for (Context c: this.contexts) {
+            if (c.getThemeId().equals(context.getThemeId())) {
                 this.contexts.remove(c);
-                this.contexts.add(theme);
+                this.contexts.add(context);
                 return;
             }
         }
-        throw new DataNotFoundException("Context not found. Id:"+theme.getThemeId());
+        throw new DataNotFoundException("Context not found. Id:"+ context.getThemeId());
     }
     @Override
     public void deleteContext(String idContext) throws DataNotFoundException{
-        for (Theme c: this.contexts) {
+        for (Context c: this.contexts) {
             if (c.getThemeId().equals(idContext) ) {
                 this.contexts.remove(c);
                 return;

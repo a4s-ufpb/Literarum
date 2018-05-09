@@ -8,13 +8,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:context="@style/AppTheme">
         <activity
-            android:name="br.ufpb.dcx.sisalfa.GameActivity"
+            android:name="br.ufpb.dcx.sisalfa.activities.GameActivity"
             android:configChanges="orientation|screenSize" />
-        <activity android:name="br.ufpb.dcx.sisalfa.ThemesActivity" />
+        <activity android:name="br.ufpb.dcx.sisalfa.activities.ThemesActivity" />
         <activity
-            android:name="br.ufpb.dcx.sisalfa.SplashActivity"
+            android:name="br.ufpb.dcx.sisalfa.activities.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,10 +23,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="br.ufpb.dcx.sisalfa.PopUp"
-            android:theme="@style/AppTheme.CustomTheme" />
-        <activity android:name="br.ufpb.dcx.sisalfa.WinActivity" />
-        <activity android:name="br.ufpb.dcx.sisalfa.LoseActivity"></activity>
+            android:name="br.ufpb.dcx.sisalfa.activities.PopUp"
+            android:context="@style/AppTheme.CustomTheme" />
+        <activity android:name="br.ufpb.dcx.sisalfa.activities.WinActivity" />
+        <activity android:name="br.ufpb.dcx.sisalfa.activities.LoseActivity" />
+        <activity android:name="br.ufpb.dcx.sisalfa.activities.ConfigActivity"></activity>
     </application>
 
 </manifest>

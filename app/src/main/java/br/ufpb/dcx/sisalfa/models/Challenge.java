@@ -20,7 +20,7 @@ public class Challenge{
 
 
     public Challenge(){
-        this(DEFAULT_CHALLENGE_WORD, DEFAULT_CHALLENGE_ID, User.DEFAULT_USER_ID, Theme.DEFAULT_CONTEXT_ID, 0, null, null);
+        this(DEFAULT_CHALLENGE_WORD, DEFAULT_CHALLENGE_ID, User.DEFAULT_USER_ID, Context.DEFAULT_CONTEXT_ID, 0, null, null);
     }
 
     public Challenge(String word,String challengeId, String userId, String contextId, int image,

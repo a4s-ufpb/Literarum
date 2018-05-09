@@ -1,4 +1,4 @@
-package br.ufpb.dcx.sisalfa;
+package br.ufpb.dcx.sisalfa.activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;

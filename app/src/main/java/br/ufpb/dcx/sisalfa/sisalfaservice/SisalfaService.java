@@ -2,10 +2,10 @@ package br.ufpb.dcx.sisalfa.sisalfaservice;
 
 import android.os.RemoteException;
 
+import br.ufpb.dcx.sisalfa.models.Context;
 import br.ufpb.dcx.sisalfa.models.DataAlreadyExistsException;
 import br.ufpb.dcx.sisalfa.models.DataNotFoundException;
 import br.ufpb.dcx.sisalfa.models.Challenge;
-import br.ufpb.dcx.sisalfa.models.Theme;
 import br.ufpb.dcx.sisalfa.models.User;
 
 import java.util.List;
@@ -17,15 +17,15 @@ import java.util.List;
 public interface SisalfaService {
 
     /**
-     * Inserts a new Theme into the database.
+     * Inserts a new Context into the database.
      *
      * @param context An object that represents a set of related challenges.
-     * @return The id of the Theme inserted.
+     * @return The id of the Context inserted.
      * @throws RemoteException            if there is any communication problem with the
      *                                    service.
-     * @throws DataAlreadyExistsException when the Theme being added already exists.
+     * @throws DataAlreadyExistsException when the Context being added already exists.
      */
-    public String addContext(Theme context) throws RemoteException, DataAlreadyExistsException;
+    public String addContext(Context context) throws RemoteException, DataAlreadyExistsException;
 
     /**
      * Returns a list with all context.
@@ -34,7 +34,7 @@ public interface SisalfaService {
      * @throws RemoteException if there is any communication problem with the
      *                         service.
      */
-    public List<Theme> getAllContexts() throws RemoteException;
+    public List<Context> getAllContexts() throws RemoteException;
 
     /**
      * Returns a list with all contexts created by a given user.
@@ -44,28 +44,28 @@ public interface SisalfaService {
      * @throws RemoteException if there is any communication problem with the
      *                         service.
      */
-    public List<Theme> getAllContextsOfUser(String idUser) throws RemoteException;
+    public List<Context> getAllContextsOfUser(String idUser) throws RemoteException;
 
     /**
      * Gets a given Context.
      *
      * @param idTheme The id of a Context.
-     * @return The Theme identified by a given id.
+     * @return The Context identified by a given id.
      * @throws RemoteException       if there is any communication problem with the
      *                               service.
-     * @throws DataNotFoundException when the Theme being searched is not found.
+     * @throws DataNotFoundException when the Context being searched is not found.
      */
-    public Theme getContext(String idTheme) throws RemoteException, DataNotFoundException;
+    public Context getContext(String idTheme) throws RemoteException, DataNotFoundException;
 
     /**
      * Updates a given Context.
      *
-     * @param theme The Context with updated information.
+     * @param context The Context with updated information.
      * @throws RemoteException       if there is any communication problem with the
      *                               service.
-     * @throws DataNotFoundException when the Theme being updated is not found.
+     * @throws DataNotFoundException when the Context being updated is not found.
      */
-    public void updateContext(Theme theme) throws RemoteException, DataNotFoundException;
+    public void updateContext(Context context) throws RemoteException, DataNotFoundException;
 
     /**
      * Deletes a certain Context.
@@ -73,7 +73,7 @@ public interface SisalfaService {
      * @param idTheme The id of the Context to be deleted.
      * @throws RemoteException       if there is any communication problem with the
      *                               service.
-     * @throws DataNotFoundException when the Theme being deleted is not found.
+     * @throws DataNotFoundException when the Context being deleted is not found.
      */
     public void deleteContext(String idTheme) throws RemoteException, DataNotFoundException;
 
@@ -84,7 +84,7 @@ public interface SisalfaService {
      * @return the id of the Challenge that was added.
      * @throws RemoteException            if there is any communication problem with the
      *                                    service.
-     * @throws DataAlreadyExistsException when the Theme being added already exists.
+     * @throws DataAlreadyExistsException when the Context being added already exists.
      */
     public String addChallenge(Challenge challenge) throws RemoteException, DataAlreadyExistsException;
 
