@@ -7,23 +7,23 @@ package br.ufpb.dcx.sisalfa.models;
 public class Challenge{
 
     private String word;
-    private String challengeId;
-    private String userId;
-    private String contextId;
+    private int challengeId;
+    private int contextId;
+    private int userId;
     private String sound;
     private String videoUrl;
     private int image;
 
 
     public static final String DEFAULT_CHALLENGE_WORD = "Empty Challenge";
-    public static final String DEFAULT_CHALLENGE_ID = "-1";
+    public static final int DEFAULT_CHALLENGE_ID = -1;
 
 
     public Challenge(){
-        this(DEFAULT_CHALLENGE_WORD, DEFAULT_CHALLENGE_ID, User.DEFAULT_USER_ID, Context.DEFAULT_CONTEXT_ID, 0, null, null);
+        this(DEFAULT_CHALLENGE_WORD, DEFAULT_CHALLENGE_ID, User.DEFAULT_USER_ID, SisContext.DEFAULT_CONTEXT_ID, 0, null, null);
     }
 
-    public Challenge(String word,String challengeId, String userId, String contextId, int image,
+    public Challenge(String word,int challengeId, int userId, int contextId, int image,
     String sound, String videoUrl) {
         super();
         this.word = word;
@@ -36,6 +36,10 @@ public class Challenge{
 
     }
 
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
     public String getWord() {
         return word;
     }
@@ -44,32 +48,32 @@ public class Challenge{
         this.word = word;
     }
 
-    public String getChallengeId() {
+    public int getChallengeId() {
         return challengeId;
     }
 
 
-    public void setChallengeId(String challengeId) {
+    public void setChallengeId(int challengeId) {
         this.challengeId = challengeId;
     }
 
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
 
-    public String getContextId() {
+    public int getContextId() {
         return contextId;
     }
 
 
-    public void setContextId(String contextId) {
+    public void setContextId(int contextId) {
         this.contextId = contextId;
     }
 
@@ -102,28 +106,5 @@ public class Challenge{
                 + contextId + ", sound=" + sound + ", videoUrl=" + videoUrl + ", image=" + image + "]";
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((challengeId == null) ? 0 : challengeId.hashCode());
-        return result;
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Challenge other = (Challenge) obj;
-        if (challengeId == null) {
-            if (other.challengeId != null)
-                return false;
-        } else if (!challengeId.equals(other.challengeId))
-            return false;
-        return true;
-    }
 }

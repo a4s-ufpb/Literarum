@@ -2,7 +2,7 @@ package br.ufpb.dcx.sisalfa.sisalfaservice;
 
 import android.os.RemoteException;
 
-import br.ufpb.dcx.sisalfa.models.Context;
+import br.ufpb.dcx.sisalfa.models.SisContext;
 import br.ufpb.dcx.sisalfa.models.DataAlreadyExistsException;
 import br.ufpb.dcx.sisalfa.models.DataNotFoundException;
 import br.ufpb.dcx.sisalfa.models.Challenge;
@@ -17,15 +17,15 @@ import java.util.List;
 public interface SisalfaService {
 
     /**
-     * Inserts a new Context into the database.
+     * Inserts a new SisContext into the database.
      *
-     * @param context An object that represents a set of related challenges.
-     * @return The id of the Context inserted.
+     * @param sisContext An object that represents a set of related challenges.
+     * @return The id of the SisContext inserted.
      * @throws RemoteException            if there is any communication problem with the
      *                                    service.
-     * @throws DataAlreadyExistsException when the Context being added already exists.
+     * @throws DataAlreadyExistsException when the SisContext being added already exists.
      */
-    public String addContext(Context context) throws RemoteException, DataAlreadyExistsException;
+    public int addContext(SisContext sisContext) throws RemoteException, DataAlreadyExistsException;
 
     /**
      * Returns a list with all context.
@@ -34,48 +34,48 @@ public interface SisalfaService {
      * @throws RemoteException if there is any communication problem with the
      *                         service.
      */
-    public List<Context> getAllContexts() throws RemoteException;
+    public List<SisContext> getAllContexts() throws RemoteException;
 
     /**
-     * Returns a list with all contexts created by a given user.
+     * Returns a list with all sisContexts created by a given user.
      *
      * @param idUser The id of the user.
      * @return a list with all themes created by a user.
      * @throws RemoteException if there is any communication problem with the
      *                         service.
      */
-    public List<Context> getAllContextsOfUser(String idUser) throws RemoteException;
+    public List<SisContext> getAllContextsOfUser(int idUser) throws RemoteException;
 
     /**
-     * Gets a given Context.
+     * Gets a given SisContext.
      *
-     * @param idTheme The id of a Context.
-     * @return The Context identified by a given id.
+     * @param idContext The id of a SisContext.
+     * @return The SisContext identified by a given id.
      * @throws RemoteException       if there is any communication problem with the
      *                               service.
-     * @throws DataNotFoundException when the Context being searched is not found.
+     * @throws DataNotFoundException when the SisContext being searched is not found.
      */
-    public Context getContext(String idTheme) throws RemoteException, DataNotFoundException;
+    public SisContext getContext(int idContext) throws RemoteException, DataNotFoundException;
 
     /**
-     * Updates a given Context.
+     * Updates a given SisContext.
      *
-     * @param context The Context with updated information.
+     * @param sisContext The SisContext with updated information.
      * @throws RemoteException       if there is any communication problem with the
      *                               service.
-     * @throws DataNotFoundException when the Context being updated is not found.
+     * @throws DataNotFoundException when the SisContext being updated is not found.
      */
-    public void updateContext(Context context) throws RemoteException, DataNotFoundException;
+    public void updateContext(SisContext sisContext) throws RemoteException, DataNotFoundException;
 
     /**
-     * Deletes a certain Context.
+     * Deletes a certain SisContext.
      *
-     * @param idTheme The id of the Context to be deleted.
+     * @param idTheme The id of the SisContext to be deleted.
      * @throws RemoteException       if there is any communication problem with the
      *                               service.
-     * @throws DataNotFoundException when the Context being deleted is not found.
+     * @throws DataNotFoundException when the SisContext being deleted is not found.
      */
-    public void deleteContext(String idTheme) throws RemoteException, DataNotFoundException;
+    public void deleteContext(int idTheme) throws RemoteException, DataNotFoundException;
 
     /**
      * Inserts a new Challenge.
@@ -84,9 +84,9 @@ public interface SisalfaService {
      * @return the id of the Challenge that was added.
      * @throws RemoteException            if there is any communication problem with the
      *                                    service.
-     * @throws DataAlreadyExistsException when the Context being added already exists.
+     * @throws DataAlreadyExistsException when the SisContext being added already exists.
      */
-    public String addChallenge(Challenge challenge) throws RemoteException, DataAlreadyExistsException;
+    public int addChallenge(Challenge challenge) throws RemoteException, DataAlreadyExistsException;
 
     /**
      * Updates a Challenge.
@@ -114,7 +114,7 @@ public interface SisalfaService {
      * @throws RemoteException if there is any communication problem with the
      *                         service.
      */
-    public List<Challenge> getAllChallengesOfUser(String idUser) throws RemoteException;
+    public List<Challenge> getAllChallengesOfUser(int idUser) throws RemoteException;
 
     /**
      * Gets a given Challenge.
@@ -125,17 +125,17 @@ public interface SisalfaService {
      *                               service.
      * @throws DataNotFoundException when the Challenge being searched is not found.
      */
-    public Challenge getChallenge(String idChallenge) throws RemoteException, DataNotFoundException;
+    public Challenge getChallenge(int idChallenge) throws RemoteException, DataNotFoundException;
 
     /**
      * Gets the list of Challenges associated with a given context.
      *
-     * @param idTheme The Context id.
+     * @param idTheme The SisContext id.
      * @return the list of Challenges associated with a given context.
      * @throws RemoteException if there is any communication problem with the
      *                         service.
      */
-    public List<Challenge> getChallengesByContext(String idTheme) throws RemoteException;
+    public List<Challenge> getChallengesByContext(int idTheme) throws RemoteException;
 
     /**
      * Deletes a certain Challenge.
@@ -145,7 +145,7 @@ public interface SisalfaService {
      *                               service.
      * @throws DataNotFoundException when the Challenge being deleted is not found.
      */
-    public void deleteChallenge(String idChallenge) throws RemoteException, DataNotFoundException;
+    public void deleteChallenge(int idChallenge) throws RemoteException, DataNotFoundException;
 
 
     /**
@@ -157,7 +157,7 @@ public interface SisalfaService {
      *                                    service.
      * @throws DataAlreadyExistsException when the User being added already exists.
      */
-    public String addUser(User user) throws RemoteException, DataAlreadyExistsException;
+    public int addUser(User user) throws RemoteException, DataAlreadyExistsException;
 
     /**
      * Gets the list of all users.
@@ -177,7 +177,7 @@ public interface SisalfaService {
      *                               service.
      * @throws DataNotFoundException when the user being searched is not found.
      */
-    public User getUser(String idUser) throws RemoteException, DataNotFoundException;
+    public User getUser(int idUser) throws RemoteException, DataNotFoundException;
 
     /**
      * Deletes a user with a given id.
@@ -187,7 +187,7 @@ public interface SisalfaService {
      *                               service.
      * @throws DataNotFoundException when the user being deleted is not found.
      */
-    public void deleteUser(String idUser) throws RemoteException, DataNotFoundException;
+    public void deleteUser(int idUser) throws RemoteException, DataNotFoundException;
 
     /**
      * Updates a user with a given id.

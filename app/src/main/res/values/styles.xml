@@ -1,8 +1,8 @@
 <resources>
 
-    <!-- Base application context. -->
+    <!-- Base application sisContext. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your context here. -->
+        <!-- Customize your sisContext here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>

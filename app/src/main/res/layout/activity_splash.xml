@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:gravity="center"
     android:background="@color/black"
-    tools:context="com.example.rynzler.literarum.br.example.rynzler.literarum.SplashActivity">
+    tools:sisContext="com.example.rynzler.literarum.br.example.rynzler.literarum.SplashActivity">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

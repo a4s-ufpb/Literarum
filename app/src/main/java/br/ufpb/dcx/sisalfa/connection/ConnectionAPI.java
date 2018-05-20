@@ -26,6 +26,7 @@ public class ConnectionAPI implements Callback<List<SisalfaMockService>> {
                 .build();
 
         LiteracyAPI literacyAPI = retrofit.create(LiteracyAPI.class);
+        //ver viabilidade de usar isso para importar temas usando querys especificas
         Call<List<SisalfaMockService>> call = literacyAPI.getChallenges();
         call.enqueue(this);
 

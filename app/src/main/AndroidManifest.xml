@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:context="@style/AppTheme">
+        android:sisContext="@style/AppTheme">
         <activity
             android:name="br.ufpb.dcx.sisalfa.activities.GameActivity"
             android:configChanges="orientation|screenSize" />
@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name="br.ufpb.dcx.sisalfa.activities.PopUp"
-            android:context="@style/AppTheme.CustomTheme" />
+            android:sisContext="@style/AppTheme.CustomTheme" />
         <activity android:name="br.ufpb.dcx.sisalfa.activities.WinActivity" />
         <activity android:name="br.ufpb.dcx.sisalfa.activities.LoseActivity" />
         <activity android:name="br.ufpb.dcx.sisalfa.activities.ConfigActivity"></activity>

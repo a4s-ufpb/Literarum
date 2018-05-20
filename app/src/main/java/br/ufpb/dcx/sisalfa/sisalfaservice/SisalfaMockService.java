@@ -1,6 +1,6 @@
 package br.ufpb.dcx.sisalfa.sisalfaservice;
 
-import br.ufpb.dcx.sisalfa.models.Context;
+import br.ufpb.dcx.sisalfa.models.SisContext;
 import br.ufpb.dcx.sisalfa.models.DataAlreadyExistsException;
 import br.ufpb.dcx.sisalfa.models.DataNotFoundException;
 import br.ufpb.dcx.sisalfa.models.Challenge;
@@ -16,97 +16,97 @@ import java.util.List;
 public class SisalfaMockService implements  SisalfaService{
     protected List<User> users;
     protected List<Challenge> challenges;
-    protected List<Context> contexts;
+    protected List<SisContext> sisContexts;
     private static int nextUserId = 0;
     private static int nextChallengeId = 0;
     private static int nextContextId = 0;
 
 
-    private synchronized static String getNextContextId() {
-        String id = "CtxID:"+nextContextId++;
+    private synchronized static int getNextContextId() {
+        int id = nextContextId++;
         return id;
     }
 
-    private synchronized static String getNextChallengeId() {
-        String id = "ChID:"+nextChallengeId++;
+    private synchronized static int getNextChallengeId() {
+        int id = nextChallengeId++;
         return id;
     }
 
-    private synchronized static String getNextUserId() {
-        String id = "UsrID:"+nextUserId++;
+    private synchronized static int getNextUserId() {
+        int id = nextUserId++;
         return id;
     }
 
     public SisalfaMockService() {
         this.users = new ArrayList<User>();
         this.challenges = new ArrayList<Challenge>();
-        this.contexts = new ArrayList<Context>();
+        this.sisContexts = new ArrayList<SisContext>();
     }
     @Override
-    public String addContext(Context context) throws DataAlreadyExistsException {
-        if (this.contexts.contains(context)) {
+    public int addContext(SisContext sisContext) throws DataAlreadyExistsException {
+        if (this.sisContexts.contains(sisContext)) {
             throw new DataAlreadyExistsException();
         } else {
-            if (context.getThemeId().equals(Context.DEFAULT_CONTEXT_ID)) {
-                context.setThemeId(getNextContextId());
+            if (sisContext.getContextId() == (SisContext.DEFAULT_CONTEXT_ID)) {
+                sisContext.setContextId(getNextContextId());
             }
-            this.contexts.add(context);
-            return context.getThemeId();
+            this.sisContexts.add(sisContext);
+            return sisContext.getContextId();
         }
     }
 
     @Override
-    public List<Context> getAllContexts() {
-        return this.contexts;
+    public List<SisContext> getAllContexts() {
+        return this.sisContexts;
     }
 
     @Override
-    public List<Context> getAllContextsOfUser(String idUser) {
-        List<Context> themesOfUser = new ArrayList<Context>();
-        for (Context c: this.contexts) {
-            if (c.getUserId().equals(idUser)) {
+    public List<SisContext> getAllContextsOfUser(int idUser) {
+        List<SisContext> themesOfUser = new ArrayList<SisContext>();
+        for (SisContext c: this.sisContexts) {
+            if (c.getUserId() == (idUser)) {
                 themesOfUser.add(c);
             }
         }
         return themesOfUser;
     }
     @Override
-    public Context getContext(String idTheme) {
-        for (Context c: this.contexts) {
-            if (c.getThemeId().equals(idTheme)) {
+    public SisContext getContext(int idContext) {
+        for (SisContext c: this.sisContexts) {
+            if (c.getContextId() == (idContext)) {
                 return c;
             }
         }
         return null;
     }
     @Override
-    public void updateContext(Context context) throws DataNotFoundException {
-        for (Context c: this.contexts) {
-            if (c.getThemeId().equals(context.getThemeId())) {
-                this.contexts.remove(c);
-                this.contexts.add(context);
+    public void updateContext(SisContext sisContext) throws DataNotFoundException {
+        for (SisContext c: this.sisContexts) {
+            if (c.getContextId() == (sisContext.getContextId())) {
+                this.sisContexts.remove(c);
+                this.sisContexts.add(sisContext);
                 return;
             }
         }
-        throw new DataNotFoundException("Context not found. Id:"+ context.getThemeId());
+        throw new DataNotFoundException("SisContext not found. Id:"+ sisContext.getContextId());
     }
     @Override
-    public void deleteContext(String idContext) throws DataNotFoundException{
-        for (Context c: this.contexts) {
-            if (c.getThemeId().equals(idContext) ) {
-                this.contexts.remove(c);
+    public void deleteContext(int idContext) throws DataNotFoundException{
+        for (SisContext c: this.sisContexts) {
+            if (c.getContextId() == (idContext) ) {
+                this.sisContexts.remove(c);
                 return;
             }
         }
-        throw new DataNotFoundException("Context not found. Id:"+idContext);
+        throw new DataNotFoundException("SisContext not found. Id:"+idContext);
     }
 
     @Override
-    public String addChallenge(Challenge challenge) throws DataAlreadyExistsException{
+    public int addChallenge(Challenge challenge) throws DataAlreadyExistsException{
         if (this.challenges.contains(challenge)) {
             throw new DataAlreadyExistsException("This challenge already exists. Id:"+challenge.getChallengeId());
         } else {
-            if (challenge.getChallengeId().equals(Challenge.DEFAULT_CHALLENGE_ID)) {
+            if (challenge.getChallengeId() == (Challenge.DEFAULT_CHALLENGE_ID)) {
                 challenge.setChallengeId(getNextChallengeId());
             }
             this.challenges.add(challenge);
@@ -116,7 +116,7 @@ public class SisalfaMockService implements  SisalfaService{
     @Override
     public void updateChallenge(Challenge newChallenge) throws DataNotFoundException{
         for (Challenge c: this.challenges) {
-            if (c.getChallengeId().equals(newChallenge.getChallengeId())) {
+            if (c.getChallengeId() == (newChallenge.getChallengeId())) {
                 this.challenges.remove(c);
                 this.challenges.add(newChallenge);
                 return;
@@ -129,40 +129,40 @@ public class SisalfaMockService implements  SisalfaService{
         return this.challenges;
     }
     @Override
-    public List<Challenge> getAllChallengesOfUser(String idUser) {
+    public List<Challenge> getAllChallengesOfUser(int idUser) {
         List<Challenge> challengesOfUser = new ArrayList<Challenge>();
         for (Challenge c: this.challenges) {
-            if (c.getUserId().equals(idUser)) {
+            if (c.getUserId() == (idUser)) {
                 challengesOfUser.add(c);
             }
         }
         return challengesOfUser;
     }
     @Override
-    public Challenge getChallenge(String idChallenge) throws DataNotFoundException{
+    public Challenge getChallenge(int idChallenge) throws DataNotFoundException{
         for (Challenge c: this.challenges) {
-            if (c.getChallengeId().equals(idChallenge)) {
+            if (c.getChallengeId() == (idChallenge)) {
                 return c;
             }
         }
         throw new DataNotFoundException("Challenge not found. Id:"+idChallenge);
     }
     @Override
-    public List<Challenge> getChallengesByContext(String idContext) {
+    public List<Challenge> getChallengesByContext(int idContext) {
         List<Challenge> challengesByContext = new ArrayList<Challenge>();
         for (Challenge c: this.challenges) {
-            if (c.getContextId().equals(idContext)) {
+            if (c.getContextId() == (idContext)) {
                 challengesByContext.add(c);
             }
         }
         return challengesByContext;
     }
     @Override
-    public String addUser(User user) throws DataAlreadyExistsException {
+    public int addUser(User user) throws DataAlreadyExistsException {
         if (this.users.contains(user)) {
             throw new DataAlreadyExistsException("User already exists. Id:"+user.getUserId());
         } else {
-            if (user.getUserId().equals(User.DEFAULT_USER_ID)) {
+            if (user.getUserId() == (User.DEFAULT_USER_ID)) {
                 user.setUserId(getNextUserId());
             }
             this.users.add(user);
@@ -175,9 +175,9 @@ public class SisalfaMockService implements  SisalfaService{
         return this.users;
     }
     @Override
-    public User getUser(String idUser) throws DataNotFoundException{
+    public User getUser(int idUser) throws DataNotFoundException{
         for (User u: this.users) {
-            if (u.getUserId().equals(idUser)) {
+            if (u.getUserId()==(idUser)) {
                 return u;
             }
         }
@@ -185,9 +185,9 @@ public class SisalfaMockService implements  SisalfaService{
     }
 
     @Override
-    public void deleteChallenge(String idChallenge) throws DataNotFoundException{
+    public void deleteChallenge(int idChallenge) throws DataNotFoundException{
         for (Challenge c: this.challenges) {
-            if (c.getChallengeId().equals(idChallenge)) {
+            if (c.getChallengeId() == (idChallenge)) {
                 this.challenges.remove(c);
                 return;
             }
@@ -195,9 +195,9 @@ public class SisalfaMockService implements  SisalfaService{
         throw new DataNotFoundException("Challenge not found. Id:"+idChallenge);
     }
     @Override
-    public void deleteUser(String idUser) throws DataNotFoundException{
+    public void deleteUser(int idUser) throws DataNotFoundException{
         for (User u: this.users) {
-            if (u.getUserId().equals(idUser)) {
+            if (u.getUserId() == (idUser)) {
                 this.users.remove(u);
                 return;
             }
@@ -208,7 +208,7 @@ public class SisalfaMockService implements  SisalfaService{
     @Override
     public void updateUser(User user) throws DataNotFoundException{
         for (User u: this.users) {
-            if (u.getUserId().equals(user.getUserId())) {
+            if (u.getUserId() ==(user.getUserId())) {
                 this.users.remove(u);
                 this.users.add(user);
                 return;
