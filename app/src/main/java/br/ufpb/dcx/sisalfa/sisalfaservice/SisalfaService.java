@@ -198,4 +198,8 @@ public interface SisalfaService {
      * @throws DataNotFoundException when the user being updated is not found.
      */
     public void updateUser(User newUser) throws RemoteException, DataNotFoundException;
+
+    public void addContexts(List<SisContext> sisContexts);
+    public void addUsers(List<User> users);
+    public void addChallenges(List<Challenge> challenges);
 }

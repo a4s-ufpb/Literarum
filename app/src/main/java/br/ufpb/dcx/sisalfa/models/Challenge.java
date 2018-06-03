@@ -6,12 +6,13 @@ package br.ufpb.dcx.sisalfa.models;
 
 public class Challenge{
 
+
     private String word;
-    private int challengeId;
+    private int id;
     private int contextId;
-    private int userId;
+    private int authorId;
     private String sound;
-    private String videoUrl;
+    private String video;
     private int image;
 
 
@@ -23,21 +24,21 @@ public class Challenge{
         this(DEFAULT_CHALLENGE_WORD, DEFAULT_CHALLENGE_ID, User.DEFAULT_USER_ID, SisContext.DEFAULT_CONTEXT_ID, 0, null, null);
     }
 
-    public Challenge(String word,int challengeId, int userId, int contextId, int image,
+    public Challenge(String word,int id, int authorId, int contextId, int image,
     String sound, String videoUrl) {
         super();
         this.word = word;
-        this.challengeId = challengeId;
-        this.userId = userId;
+        this.id = id;
+        this.authorId = authorId;
         this.contextId = contextId;
         this.image = image;
         this.sound = sound;
-        this.videoUrl = videoUrl;
+        this.video = videoUrl;
 
     }
 
     public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
+        this.video = videoUrl;
     }
 
     public String getWord() {
@@ -49,22 +50,22 @@ public class Challenge{
     }
 
     public int getChallengeId() {
-        return challengeId;
+        return id;
     }
 
 
     public void setChallengeId(int challengeId) {
-        this.challengeId = challengeId;
+        this.id = challengeId;
     }
 
 
     public int getUserId() {
-        return userId;
+        return authorId;
     }
 
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserId(int authorId) {
+        this.authorId = authorId;
     }
 
 
@@ -89,7 +90,7 @@ public class Challenge{
 
 
     public String getVideoUrl() {
-        return videoUrl;
+        return video;
     }
 
     public int getImage() {
@@ -102,8 +103,8 @@ public class Challenge{
 
     @Override
     public String toString() {
-        return "Challenge [word=" + word + ", challengeId=" + challengeId + ", userId=" + userId + ", contextId="
-                + contextId + ", sound=" + sound + ", videoUrl=" + videoUrl + ", image=" + image + "]";
+        return "Challenge [word=" + word + ", challengeId=" + id + ", userId=" + authorId + ", contextId="
+                + contextId + ", sound=" + sound + ", videoUrl=" + video + ", image=" + image + "]";
     }
 
 

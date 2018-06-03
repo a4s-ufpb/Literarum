@@ -37,7 +37,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private int progressStatus = 0;
     private int challengeTextViewID;
     private int heartCount = 0;
-    private String themeID;
+    private int themeID;
     private TextToSpeech textToSpeech;
     private int result;
 
@@ -80,7 +80,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
         Intent it = getIntent();
-        this.themeID = it.getStringExtra("theme");
+        this.themeID = Integer.parseInt(it.getStringExtra("theme"));
 
 
         try {
@@ -188,7 +188,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void randomChallenges(String themesId) throws RemoteException {
+    private void randomChallenges(int themesId) throws RemoteException {
         for(int k = 0; k < 3;){
             int rnd = new Random()
                     .nextInt(sisalfaService

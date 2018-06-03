@@ -217,6 +217,21 @@ public class SisalfaMockService implements  SisalfaService{
         throw new DataNotFoundException("User not found. Id:"+user.getUserId());
     }
 
+    @Override
+    public void addContexts(List<SisContext> sisContexts) {
+        this.sisContexts.addAll(sisContexts);
+    }
+
+    @Override
+    public void addUsers(List<User> users) {
+        this.users.addAll(users);
+
+    }
+
+    @Override
+    public void addChallenges(List<Challenge> challenges) {
+        this.challenges.addAll(challenges);
+    }
 
 
 }

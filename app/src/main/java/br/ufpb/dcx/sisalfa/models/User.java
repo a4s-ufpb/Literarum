@@ -9,48 +9,47 @@ public class User {
     public static final String DEFAULT_USER_NAME = "Anonymous";
     public static final int DEFAULT_USER_ID = -1;
 
-    private int userId;
-    private int contextId;
-    private String user_name;
+    private int id;
+    private String username;
     private String password;
     private String email;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private String photo;
 
 
-    public User(int userId, String user_name, String password, String email, String first_name, String last_name, String photo) {
-        this.userId = userId;
-        this.user_name = user_name;
+    public User(int id, String username, String password, String email, String firstName, String lastName, String photo) {
+        this.id = id;
+        this.username = username;
         this.password = password;
         this.email = email;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.photo = photo;
     }
 
     public User() {
-        this.user_name = DEFAULT_USER_NAME;
-        this.userId = DEFAULT_USER_ID;
+        this.username = DEFAULT_USER_NAME;
+        this.id = DEFAULT_USER_ID;
     }
 
     public String getUserName() {
-        return user_name;
+        return username;
     }
 
 
     public void setUserName(String user_name) {
-        this.user_name = user_name;
+        this.username = user_name;
     }
 
 
     public int getUserId() {
-        return userId;
+        return id;
     }
 
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.id = userId;
     }
 
 
@@ -71,19 +70,19 @@ public class User {
     }
 
     public String getFirst_name() {
-        return first_name;
+        return firstName;
     }
 
     public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+        this.firstName = first_name;
     }
 
     public String getLast_name() {
-        return last_name;
+        return lastName;
     }
 
     public void setLast_name(String last_name) {
-        this.last_name = last_name;
+        this.lastName = last_name;
     }
 
     public String getPhoto() {
@@ -97,12 +96,12 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId='" + userId + '\'' +
-                ", user_name='" + user_name + '\'' +
+                "userId='" + id + '\'' +
+                ", user_name='" + username + '\'' +
                 ", password=" + password +
                 ", email='" + email + '\'' +
-                ", first_name='" + first_name + '\'' +
-                ", last_name='" + last_name + '\'' +
+                ", first_name='" + firstName + '\'' +
+                ", last_name='" + lastName + '\'' +
                 ", photo='" + photo + '\'' +
                 '}';
     }

@@ -86,7 +86,7 @@ public class SisalfaRepository {
      * @return returns an list of all users.
      */
 
-    private List<User> getAllUsers(){
+    public List<User> getAllUsers(){
         List<User> users = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + SisalfaSQLHelper.USER_TABLE;
 
@@ -157,7 +157,7 @@ public class SisalfaRepository {
      * @param userId
      * @return
      */
-    public long createContext(SisContext context, int userId){
+    public long createContext(SisContext context){
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
@@ -209,7 +209,7 @@ public class SisalfaRepository {
      * @return returns an list of all users.
      */
 
-    private List<SisContext> getAllContexts(){
+    public List<SisContext> getAllContexts(){
         List<SisContext> sisContexts = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + SisalfaSQLHelper.CONTEXT_TABLE;
 
@@ -329,7 +329,7 @@ public class SisalfaRepository {
      * @return returns an list of all users.
      */
 
-    private List<Challenge> getAllChallenges(){
+    public List<Challenge> getAllChallenges(){
         List<Challenge> challenges = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + SisalfaSQLHelper.CHALLENGE_TABLE;
 

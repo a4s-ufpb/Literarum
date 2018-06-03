@@ -6,11 +6,11 @@ package br.ufpb.dcx.sisalfa.models;
 
 public class SisContext {
     private String name;
-    private int contextId;
-    private int userId;
+    private int id;
+    private int authorId;
     private String image;
     private String sound;
-    private String videoUrl;
+    private String video;
 
     public static final String DEFAULT_CONTEXT_NAME = "Empty Challenge";
     public static final int DEFAULT_CONTEXT_ID = -1;
@@ -19,13 +19,13 @@ public class SisContext {
         this(DEFAULT_CONTEXT_NAME, DEFAULT_CONTEXT_ID, User.DEFAULT_USER_ID, null,null,null);
     }
 
-    public SisContext(String name, int contextId, int userId, String image, String sound, String videoUrl) {
+    public SisContext(String name, int id, int authorId, String image, String sound, String video) {
         this.name = name;
-        this.contextId = contextId;
-        this.userId = userId;
+        this.id = id;
+        this.authorId = authorId;
         this.image = image;
         this.sound = sound;
-        this.videoUrl = videoUrl;
+        this.video = video;
     }
 
     public String getName() {
@@ -37,19 +37,19 @@ public class SisContext {
     }
 
     public int getContextId() {
-        return contextId;
+        return id;
     }
 
-    public void setContextId(int contextIdId) {
-        this.contextId = contextId;
+    public void setContextId(int id) {
+        this.id = id;
     }
 
     public int getUserId() {
-        return userId;
+        return authorId;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.authorId = userId;
     }
 
     public String getImage() {
@@ -69,16 +69,16 @@ public class SisContext {
     }
 
     public String getVideoUrl() {
-        return videoUrl;
+        return video;
     }
 
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
+    public void setVideoUrl(String video) {
+        this.video = video;
     }
 
     @Override
     public String toString() {
-        return "SisContext [name=" + name + ", themeId=" + contextId + ", userId=" + userId + ", image=" + image
-                + ", sound=" + sound + ", videoUrl=" + videoUrl + "]";
+        return "SisContext [name=" + name + ", themeId=" + id + ", userId=" + authorId + ", image=" + image
+                + ", sound=" + sound + ", video=" + video + "]";
     }
 }
