@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/colorPrimary"
-    tools:sisContext="com.example.rynzler.literarum.br.example.rynzler.literarum.ThemesActivity">
+    tools:context="br.ufpb.dcx.sisalfa.activities.ThemesActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

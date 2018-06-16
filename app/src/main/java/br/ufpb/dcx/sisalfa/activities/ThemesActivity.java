@@ -23,8 +23,6 @@ import br.ufpb.dcx.sisalfa.models.User;
 import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaMockService;
 
 public class ThemesActivity extends AppCompatActivity implements View.OnClickListener{
-    private SisalfaMockService sisalfaMockService;
-    private SisalfaRepository sisalfaRepository;
     private ConnectionAPI connectionAPI;
     private TextView titleThemes;
     private ImageView fruitsIV;
@@ -58,14 +56,11 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
         this.colorsIV = findViewById(R.id.colorsId);
         colorsIV.setOnClickListener(this);
 
-        this.sisalfaRepository= new SisalfaRepository(getApplicationContext());
-        this.sisalfaMockService = new SisalfaMockService();
-        this.connectionAPI =  new ConnectionAPI();
-        connectionAPI.startContexts();
-        connectionAPI.startChallenges();
-        connectionAPI.startUsers();
-        sisalfaMockService = connectionAPI.getSisalfaMockServices();
-        tableCreator();
+        //this.connectionAPI = new ConnectionAPI(getApplicationContext());
+        //connectionAPI.startContexts();
+        //connectionAPI.startChallenges();
+        //connectionAPI.startUsers();
+        Log.i("TAG", "TESTE" + getDrawableId("purple"));
 
     }
 
@@ -74,79 +69,31 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
         Intent it = new Intent(this, GameActivity.class);
         switch (view.getId()){
             case R.id.bodyId:
-                it.putExtra("theme", "bodyThemeID");
+                it.putExtra("theme", 1);
                 break;
             case R.id.animalsId:
-                it.putExtra("theme", "animalsThemeID");
+                it.putExtra("theme", 2);
                 break;
             case R.id.colorsId:
-               it.putExtra("theme", "colorsThemeID");
+                it.putExtra("theme", 3);
                 break;
             case R.id.professionsId:
-                it.putExtra("theme", "professionsThemeID");
+                it.putExtra("theme", 4);
                 break;
             case R.id.fruitId:
-                it.putExtra("theme", "fruitsThemeID");
+                it.putExtra("theme", 5);
                 break;
             case R.id.homeId:
-                it.putExtra("theme", "homeThemeID");
+                it.putExtra("theme", 6);
                 break;
         }
         startActivity(it);
 
     }
+
     private int getDrawableId(String drawableName){
         return getResources().getIdentifier(drawableName , "drawable", getPackageName());
 
     }
 
-    private void tableCreator(){
-        if(sisalfaRepository.getAllContexts() == null){
-            for(SisContext sc: sisalfaMockService.getAllContexts()){
-                sisalfaRepository.createContext(sc);
-            }
-        }else{
-            for(SisContext sc: sisalfaMockService.getAllContexts()){
-                if(sisalfaRepository.getAllContexts().contains(sc)){
-                    Log.i("TAG", "Object already exist.");
-                }
-                else{
-                    sisalfaRepository.createContext(sc);
-                }
-
-            }
-        }
-
-        if(sisalfaRepository.getAllChallenges() == null){
-            for(Challenge c: sisalfaMockService.getAllChallenges()){
-                sisalfaRepository.createChallenge(c);
-            }
-        }else{
-            for(Challenge c: sisalfaMockService.getAllChallenges()){
-                if(sisalfaRepository.getAllChallenges().contains(c)){
-                    Log.i("TAG", "Object already exist.");
-                }
-                else{
-                    sisalfaRepository.createChallenge(c);
-                }
-
-            }
-        }
-
-        if(sisalfaRepository.getAllUsers() == null){
-            for(User u: sisalfaMockService.getAllUsers()){
-                sisalfaRepository.createUser(u);
-            }
-        }else{
-            for(User u: sisalfaMockService.getAllUsers()){
-                if(sisalfaRepository.getAllUsers().contains(u)){
-                    Log.i("TAG", "Object already exist.");
-                }
-                else{
-                    sisalfaRepository.createUser(u);
-                }
-
-            }
-        }
-    }
 }

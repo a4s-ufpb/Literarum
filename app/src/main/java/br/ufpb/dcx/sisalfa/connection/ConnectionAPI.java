@@ -1,17 +1,13 @@
 package br.ufpb.dcx.sisalfa.connection;
-
+import android.content.Context;
+import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import br.ufpb.dcx.sisalfa.database.SisalfaRepository;
 import br.ufpb.dcx.sisalfa.models.Challenge;
 import br.ufpb.dcx.sisalfa.models.SisContext;
 import br.ufpb.dcx.sisalfa.models.User;
-import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaMockService;
-import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaService;
 import br.ufpb.dcx.sisalfa.util.AndroidUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,10 +17,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ConnectionAPI {
 
-    private SisalfaMockService sisalfaMockServices;
+    private SisalfaRepository sisalfaRepository;
 
-    public ConnectionAPI(){
-        this.sisalfaMockServices =  new SisalfaMockService();
+    public ConnectionAPI(Context ctx){
+        this.sisalfaRepository =  new SisalfaRepository(ctx);
     }
 
     private Retrofit retrofitBuilder(String baseURL){
@@ -49,7 +45,14 @@ public class ConnectionAPI {
             public void onResponse(Call<List<SisContext>> call, Response<List<SisContext>> response) {
                 if(response.isSuccessful()) {
                     List<SisContext> changesList = response.body();
-                    System.out.println(changesList.size());
+                    for(SisContext sc: changesList){
+                        if(sisalfaRepository.getAllContexts().contains(sc)){
+                            Log.i("TAG", "Object already exist.");
+                        }
+                        else{
+                            sisalfaRepository.createContext(sc);
+                        }
+                    }
 
                 } else {
                     System.out.println(response.errorBody());
@@ -74,7 +77,14 @@ public class ConnectionAPI {
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if(response.isSuccessful()) {
                     List<User> changesList = response.body();
-                    System.out.println(changesList.size());
+                    for(User user: changesList){
+                        if(sisalfaRepository.getAllContexts().contains(user)){
+                            Log.i("TAG", "Object already exist.");
+                        }
+                        else{
+                            sisalfaRepository.createUser(user);
+                        }
+                    }
                 } else {
                     System.out.println(response.errorBody());
                 }
@@ -99,8 +109,15 @@ public class ConnectionAPI {
             public void onResponse(Call<List<Challenge>> call, Response<List<Challenge>> response) {
                 if(response.isSuccessful()) {
                     List<Challenge> changesList = response.body();
-                    System.out.println(changesList.size());
-                } else {
+                    for(Challenge c: changesList){
+                        if(sisalfaRepository.getAllContexts().contains(c)){
+                            Log.i("TAG", "Object already exist.");
+                        }
+                        else{
+                            sisalfaRepository.createChallenge(c);
+                        }
+                    }
+                }else {
                     System.out.println(response.errorBody());
                 }
             }
@@ -111,9 +128,5 @@ public class ConnectionAPI {
             }
         });
 
-    }
-
-    public SisalfaMockService getSisalfaMockServices() {
-        return sisalfaMockServices;
     }
 }

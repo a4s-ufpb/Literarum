@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="@color/colorPrimaryDark"
-    tools:sisContext="com.example.rynzler.literarum.br.example.rynzler.literarum.PopUp">
+    tools:context="br.ufpb.dcx.sisalfa.activities.PopUp">
     <TextView
         android:layout_gravity="center"
         android:layout_width="wrap_content"

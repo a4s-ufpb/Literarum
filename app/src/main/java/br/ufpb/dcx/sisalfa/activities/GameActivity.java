@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.rynzler.literarum.R;
 
 import br.ufpb.dcx.sisalfa.models.Challenge;
+import br.ufpb.dcx.sisalfa.sisalfaservice.FilledSisalfaMockService;
 import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaMockService;
 import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaService;
 import br.ufpb.dcx.sisalfa.util.AndroidUtils;
@@ -71,7 +72,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         this.firstHeart =findViewById(R.id.imageView);
         this.secondHeart = findViewById(R.id.imageView2);
         this.thirdHeart = findViewById(R.id.imageView3);
-        this.sisalfaService = new SisalfaMockService();
+        this.sisalfaService = new FilledSisalfaMockService();
         this.challenges = new ArrayList<>(3);
 
 
@@ -80,7 +81,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
         Intent it = getIntent();
-        this.themeID = Integer.parseInt(it.getStringExtra("theme"));
+        this.themeID = it.getIntExtra("theme", -1);
 
 
         try {

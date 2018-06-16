@@ -21,17 +21,6 @@ public class SplashActivity extends AppCompatActivity implements Runnable{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-        MediaPlayer mp = MediaPlayer.create(SplashActivity.this, R.raw.welcome);
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-
-                mp.release();
-            }
-
-        });
-        mp.start();
         Handler handler = new Handler();
         handler.postDelayed(this, 3000);
 

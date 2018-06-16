@@ -6,7 +6,7 @@
     android:padding="10dp"
     android:orientation="vertical"
     android:background="@color/colorPrimary"
-    tools:sisContext="com.example.rynzler.literarum.br.example.rynzler.literarum.GameActivity">
+    tools:context="br.ufpb.dcx.sisalfa.activities.GameActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
