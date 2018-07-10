@@ -28,6 +28,7 @@ public class ConnectionAPI {
                 .setLenient()
                 .create();
 
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -46,6 +47,7 @@ public class ConnectionAPI {
                 if(response.isSuccessful()) {
                     List<SisContext> changesList = response.body();
                     for(SisContext sc: changesList){
+                        System.out.println("Nome: "+ sc.getName());
                         if(sisalfaRepository.getAllContexts().contains(sc)){
                             Log.i("TAG", "Object already exist.");
                         }

@@ -154,7 +154,6 @@ public class SisalfaRepository {
      * Create a context table.
      *
      * @param context
-     * @param userId
      * @return
      */
     public long createContext(SisContext context){
@@ -334,6 +333,34 @@ public class SisalfaRepository {
         String selectQuery = "SELECT  * FROM " + SisalfaSQLHelper.CHALLENGE_TABLE;
 
         Log.e("LOG", selectQuery);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Challenge challenge = new Challenge();
+                challenge.setChallengeId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
+                challenge.setContextId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY)));
+                challenge.setUserId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
+                challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
+                challenge.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
+                challenge.setVideoUrl(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
+                challenges.add(challenge);
+            } while (c.moveToNext());
+        }
+
+
+
+        return challenges;
+    }
+
+
+    public List<Challenge> getChallengesByContext(int contextId){
+        List<Challenge> challenges = new ArrayList<>();
+        String selectQuery = "SELECT  * FROM " + SisalfaSQLHelper.CHALLENGE_TABLE + " WHERE "+SisalfaSQLHelper.COLUMN_CONTEXT_FKEY+" = "+contextId;
+
+        Log.e("LOG", selectQuery);
+
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 

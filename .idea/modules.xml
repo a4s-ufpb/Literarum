@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Literarum.iml" filepath="$PROJECT_DIR$/Literarum.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/literarum.iml" filepath="$PROJECT_DIR$/literarum.iml" />
     </modules>
   </component>
 </project>

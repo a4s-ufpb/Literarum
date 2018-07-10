@@ -56,11 +56,11 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
         this.colorsIV = findViewById(R.id.colorsId);
         colorsIV.setOnClickListener(this);
 
-        //this.connectionAPI = new ConnectionAPI(getApplicationContext());
+        this.connectionAPI = new ConnectionAPI(getApplicationContext());
         //connectionAPI.startContexts();
         //connectionAPI.startChallenges();
         //connectionAPI.startUsers();
-        Log.i("TAG", "TESTE" + getDrawableId("purple"));
+        //Log.i("TAG", "TESTE" + getDrawableId("purple"));
 
     }
 

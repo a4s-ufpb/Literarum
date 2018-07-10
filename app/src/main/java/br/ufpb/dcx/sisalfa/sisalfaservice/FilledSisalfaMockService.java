@@ -60,7 +60,7 @@ public class FilledSisalfaMockService extends SisalfaMockService{
 
         aux.addAll(createBodyChallenges());
         aux.addAll(createAnimalsChallenges());
-        aux.addAll(createColorsChallenges());
+       // aux.addAll(createColorsChallenges());
         aux.addAll(createHomeChallenges());
         aux.addAll(createFruitsChallenges());
         aux.addAll(createProfessionsChallenges());
@@ -181,7 +181,7 @@ public class FilledSisalfaMockService extends SisalfaMockService{
         return aux;
     }
 
-    public List<Challenge> createColorsChallenges(){
+    /*public List<Challenge> createColorsChallenges(){
         List<Challenge> aux = new ArrayList<>();
 
         Challenge c1 = new Challenge();
@@ -221,15 +221,15 @@ public class FilledSisalfaMockService extends SisalfaMockService{
         c6.setImage(2131099741);
         aux.add(c6);
 
-        /*Challenge c7 = new Challenge();
+        Challenge c7 = new Challenge();
         c7.setContextId(3);
         c7.setWord("Branco");
-        aux.add(c7);*/
+        aux.add(c7);
 
-        /*Challenge c8 = new Challenge();
+        Challenge c8 = new Challenge();
         c8.setContextId(3);
         c8.setWord("Laranja");
-        aux.add(c8);*/
+        aux.add(c8);
 
         Challenge c9 = new Challenge();
         c9.setContextId(3);
@@ -245,7 +245,7 @@ public class FilledSisalfaMockService extends SisalfaMockService{
         aux.add(c10);
 
         return aux;
-    }
+    }*/
 
     public List<Challenge> createProfessionsChallenges(){
         List<Challenge> aux = new ArrayList<>();

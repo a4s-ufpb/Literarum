@@ -13,7 +13,7 @@ public class Challenge{
     private int authorId;
     private String sound;
     private String video;
-    private int image;
+    private String image;
 
 
     public static final String DEFAULT_CHALLENGE_WORD = "Empty Challenge";
@@ -21,10 +21,10 @@ public class Challenge{
 
 
     public Challenge(){
-        this(DEFAULT_CHALLENGE_WORD, DEFAULT_CHALLENGE_ID, User.DEFAULT_USER_ID, SisContext.DEFAULT_CONTEXT_ID, 0, null, null);
+        this(DEFAULT_CHALLENGE_WORD, DEFAULT_CHALLENGE_ID, User.DEFAULT_USER_ID, SisContext.DEFAULT_CONTEXT_ID, null, null, null);
     }
 
-    public Challenge(String word,int id, int authorId, int contextId, int image,
+    public Challenge(String word,int id, int authorId, int contextId, String image,
     String sound, String videoUrl) {
         super();
         this.word = word;
@@ -93,11 +93,11 @@ public class Challenge{
         return video;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

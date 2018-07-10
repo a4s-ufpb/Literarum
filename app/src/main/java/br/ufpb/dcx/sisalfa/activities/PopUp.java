@@ -18,8 +18,10 @@ public class PopUp extends AppCompatActivity implements Runnable{
         int width = dm.widthPixels;
         int heigth = dm.heightPixels;
         getWindow().setLayout((int) (width*.8), (int) (heigth*.6));
+
         Handler handler = new Handler();
         handler.postDelayed(this, 3000);
+
     }
 
     @Override
