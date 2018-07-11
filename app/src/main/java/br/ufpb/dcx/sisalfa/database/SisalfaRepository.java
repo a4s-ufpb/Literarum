@@ -287,7 +287,7 @@ public class SisalfaRepository {
         cv.put(SisalfaSQLHelper.COLUMN_IMAGE, challenge.getImage());
         cv.put(SisalfaSQLHelper.COLUMN_SOUND, challenge.getSound());
         cv.put(SisalfaSQLHelper.COLUMN_VIDEO, challenge.getVideoUrl());
-        return db.insert(SisalfaSQLHelper.CONTEXT_TABLE, null, cv);
+        return db.insert(SisalfaSQLHelper.CHALLENGE_TABLE, null, cv);
 
     }
 

@@ -1,6 +1,7 @@
 package br.ufpb.dcx.sisalfa.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.RemoteException;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +15,15 @@ import android.widget.Toast;
 
 import com.example.rynzler.literarum.R;
 
+import br.ufpb.dcx.sisalfa.database.SisalfaRepository;
 import br.ufpb.dcx.sisalfa.models.Challenge;
 import br.ufpb.dcx.sisalfa.sisalfaservice.FilledSisalfaMockService;
 import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaMockService;
 import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaService;
 import br.ufpb.dcx.sisalfa.util.AndroidUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -32,9 +36,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView playIV, firstIV, secondIV, thirdIV, helpIV, backIV,
             firstHeart, secondHeart, thirdHeart;
     private TextView wordTV;
-    private SisalfaService sisalfaService;
     private List<Integer> challenges;
     private ProgressBar progressBar;
+    private List<Challenge> challengesList;
+    private SisalfaRepository db;
+
     private int progressStatus = 0;
     private int challengeTextViewID;
     private int heartCount = 0;
@@ -72,8 +78,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         this.firstHeart =findViewById(R.id.imageView);
         this.secondHeart = findViewById(R.id.imageView2);
         this.thirdHeart = findViewById(R.id.imageView3);
-        this.sisalfaService = new FilledSisalfaMockService();
         this.challenges = new ArrayList<>(3);
+        this.db = new SisalfaRepository(getApplicationContext());
 
 
         progressBar.setMax(10);
@@ -82,15 +88,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent it = getIntent();
         this.themeID = it.getIntExtra("theme", -1);
+        this.challengesList = db.getChallengesByContext(themeID);
+        System.out.println("TESTE CHALLENGES"+ challengesList.size());
 
 
         try {
             this.challengeTextViewID = displayChallengeOnScreen();
         } catch (RemoteException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-
 
 
     }
@@ -115,6 +123,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     checkAnswer((Integer) firstIV.getTag());
                 } catch (RemoteException e) {
                     e.printStackTrace();
+                } catch (IOException io){
+                    io.printStackTrace();
                 }
                 break;
             case R.id.secondIV:
@@ -122,6 +132,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     checkAnswer((Integer) secondIV.getTag());
                 } catch (RemoteException e) {
                     e.printStackTrace();
+                }  catch (IOException io){
+                    io.printStackTrace();
                 }
                 break;
             case R.id.thirdIV:
@@ -129,13 +141,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     checkAnswer((Integer) thirdIV.getTag());
                 } catch (RemoteException e) {
                     e.printStackTrace();
+                } catch (IOException io){
+                    io.printStackTrace();
                 }
                 break;
         }
 
     }
 
-    private void checkAnswer(int id) throws RemoteException {
+    private void checkAnswer(int id) throws RemoteException, IOException {
         if(id != challengeTextViewID){
             clearHeartView();
             Toast.makeText(getApplicationContext(), "Errado!", Toast.LENGTH_SHORT).show();
@@ -170,32 +184,29 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private int displayChallengeOnScreen() throws RemoteException {
+    private int displayChallengeOnScreen() throws RemoteException, IOException {
         randomChallenges(themeID);
-        List<Challenge> challengesAux = sisalfaService.getChallengesByContext(themeID);
-        firstIV.setImageResource(challengesAux.get(challenges.get(0)).getImage());
-        firstIV.setTag(challengesAux.get(challenges.get(0)).getImage());
+        firstIV.setImageURI(Uri.fromFile(new File(challengesList.get(0).getImage())));
+        firstIV.setTag(challengesList.get(challenges.get(0)).getChallengeId());
 
-        secondIV.setImageResource(challengesAux.get(challenges.get(1)).getImage());
-        secondIV.setTag(challengesAux.get(challenges.get(1)).getImage());
+        secondIV.setImageURI(Uri.fromFile(new File(challengesList.get(1).getImage())));
+        secondIV.setTag(challengesList.get(challenges.get(1)).getChallengeId());
 
-        thirdIV.setImageResource(challengesAux.get(challenges.get(2)).getImage());
-        thirdIV.setTag(challengesAux.get(challenges.get(2)).getImage());
+        thirdIV.setImageURI(Uri.fromFile(new File(challengesList.get(2).getImage())));
+        thirdIV.setTag(challengesList.get(challenges.get(2)).getChallengeId());
 
         int rnd = new Random().nextInt(3);
-        wordTV.setText(String.valueOf(challengesAux.get(challenges.get(rnd)).getWord()));
-        int imageIdentifier = challengesAux.get(rnd).getImage();
+        wordTV.setText(String.valueOf(challengesList.get(challenges.get(rnd)).getWord()));
+        int challengeID = challengesList.get(rnd).getChallengeId();
 
-        return imageIdentifier;
+        return challengeID;
 
     }
 
     private void randomChallenges(int themesId) throws RemoteException {
         for(int k = 0; k < 3;){
             int rnd = new Random()
-                    .nextInt(sisalfaService
-                            .getChallengesByContext(themesId)
-                            .size());
+                    .nextInt(challengesList.size());
 
             if (!challenges.contains(rnd)) {
                 challenges.add(rnd);

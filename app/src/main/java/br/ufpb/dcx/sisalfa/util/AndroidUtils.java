@@ -12,7 +12,6 @@ import java.io.ByteArrayOutputStream;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.net.URL;
 
 
@@ -30,9 +29,13 @@ public class AndroidUtils {
 
     }
 
-    public static byte[] extractBytes (String imagePath) throws IOException {
-        byte[] array = Files.readAllBytes(new File(imagePath).toPath());
-        return array;
+    public static Bitmap extractBytes (String imagePath) throws IOException {
+        File imgFile = new  File(imagePath);
+        if(imgFile.exists()){
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            return myBitmap;
+
+        }return null;
 
     }
 

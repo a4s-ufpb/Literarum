@@ -16,6 +16,7 @@ import com.example.rynzler.literarum.R;
 import java.util.List;
 
 import br.ufpb.dcx.sisalfa.connection.ConnectionAPI;
+import br.ufpb.dcx.sisalfa.database.FilledData;
 import br.ufpb.dcx.sisalfa.database.SisalfaRepository;
 import br.ufpb.dcx.sisalfa.models.Challenge;
 import br.ufpb.dcx.sisalfa.models.SisContext;
@@ -31,6 +32,7 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView homeIV;
     private ImageView colorsIV;
     private ImageView bodyIV;
+    private FilledData fd;
 
 
     @Override
@@ -55,6 +57,8 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
         bodyIV.setOnClickListener(this);
         this.colorsIV = findViewById(R.id.colorsId);
         colorsIV.setOnClickListener(this);
+
+        this.fd = new FilledData(getApplicationContext());
 
         this.connectionAPI = new ConnectionAPI(getApplicationContext());
         //connectionAPI.startContexts();
@@ -87,6 +91,7 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
                 it.putExtra("theme", 6);
                 break;
         }
+        System.out.println(it.getIntExtra("theme", -1));
         startActivity(it);
 
     }
