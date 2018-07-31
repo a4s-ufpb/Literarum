@@ -6,6 +6,7 @@ import android.os.RemoteException;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -186,13 +187,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private int displayChallengeOnScreen() throws RemoteException, IOException {
         randomChallenges(themeID);
-        firstIV.setImageURI(Uri.fromFile(new File(challengesList.get(0).getImage())));
+
+        firstIV.setImageURI(AndroidUtils.extractUri(challengesList.get(0).getImage()));
         firstIV.setTag(challengesList.get(challenges.get(0)).getChallengeId());
 
-        secondIV.setImageURI(Uri.fromFile(new File(challengesList.get(1).getImage())));
+        secondIV.setImageURI(AndroidUtils.extractUri(challengesList.get(1).getImage()));
         secondIV.setTag(challengesList.get(challenges.get(1)).getChallengeId());
 
-        thirdIV.setImageURI(Uri.fromFile(new File(challengesList.get(2).getImage())));
+        thirdIV.setImageURI(AndroidUtils.extractUri(challengesList.get(2).getImage()));
         thirdIV.setTag(challengesList.get(challenges.get(2)).getChallengeId());
 
         int rnd = new Random().nextInt(3);
@@ -231,4 +233,19 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         });
         result = 0;
     }
+
+    @Override
+    protected void onDestroy() {
+
+
+        //Close the Text to Speech Library
+        if(textToSpeech != null) {
+
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+            Log.d("TAG", "TTS Destroyed");
+        }
+        super.onDestroy();
+    }
+
 }

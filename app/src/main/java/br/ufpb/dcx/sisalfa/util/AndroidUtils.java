@@ -4,9 +4,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
 import android.speech.tts.TextToSpeech;
 import android.util.Base64;
 import android.widget.Toast;
+
+import com.example.rynzler.literarum.BuildConfig;
 
 import java.io.ByteArrayOutputStream;
 
@@ -18,7 +22,7 @@ import java.net.URL;
 public class AndroidUtils {
 
     public static final String USERS_BASE_URL = "https://app.sisalfa.dcx.ufpb.br/v1/api/users/";
-    public static final String CONTEXTS_BASE_URL = "https://app.sisalfa.dcx.ufpb.br/v1/api/contexts/";
+    public static final String CONTEXTS_BASE_URL = "https://app.sisalfa.dcx.ufpb.br/v1/api/";
     public static final String CHALLENGES_BASE_URL = "https://app.sisalfa.dcx.ufpb.br/v1/api/challenges/";
 
     public static void speakOut(String text, int result, Context ctx, TextToSpeech tts){
@@ -29,14 +33,16 @@ public class AndroidUtils {
 
     }
 
-    public static Bitmap extractBytes (String imagePath) throws IOException {
-        File imgFile = new  File(imagePath);
-        if(imgFile.exists()){
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            return myBitmap;
+    public static Uri extractUri (String imagePath) throws IOException {
+        Uri path = Uri.parse("android.resource://"+ BuildConfig.APPLICATION_ID+"/" + imagePath);
+        return path;
+    }
 
-        }return null;
 
+
+    public static Bitmap pathToBitmap(String path){
+        Bitmap bmImg = BitmapFactory.decodeFile(path);
+        return bmImg;
     }
 
     public static String BitmapToBase64(Bitmap bitmap) {

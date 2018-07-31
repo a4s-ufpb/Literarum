@@ -166,6 +166,8 @@ public class SisalfaRepository {
         cv.put(SisalfaSQLHelper.COLUMN_IMAGE, context.getImage());
         cv.put(SisalfaSQLHelper.COLUMN_SOUND, context.getSound());
         cv.put(SisalfaSQLHelper.COLUMN_VIDEO, context.getVideoUrl());
+        cv.put(SisalfaSQLHelper.COLUMN_CREATEDAT, context.getCreatedAt());
+        cv.put(SisalfaSQLHelper.COLUMN_UPDATEDAT, context.getUpdatedAt());
         return db.insert(SisalfaSQLHelper.CONTEXT_TABLE, null, cv);
 
     }
@@ -225,6 +227,9 @@ public class SisalfaRepository {
                 sisContext.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 sisContext.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
                 sisContext.setVideoUrl(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
+                sisContext.setCreatedAt(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CREATEDAT)));
+                sisContext.setUpdatedAt(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_UPDATEDAT)));
+
                 sisContexts.add(sisContext);
             } while (c.moveToNext());
         }
@@ -287,6 +292,9 @@ public class SisalfaRepository {
         cv.put(SisalfaSQLHelper.COLUMN_IMAGE, challenge.getImage());
         cv.put(SisalfaSQLHelper.COLUMN_SOUND, challenge.getSound());
         cv.put(SisalfaSQLHelper.COLUMN_VIDEO, challenge.getVideoUrl());
+        cv.put(SisalfaSQLHelper.COLUMN_UPDATEDAT, challenge.getUpdatedAt());
+        cv.put(SisalfaSQLHelper.COLUMN_CREATEDAT, challenge.getCreatedAt());
+
         return db.insert(SisalfaSQLHelper.CHALLENGE_TABLE, null, cv);
 
     }
@@ -313,7 +321,8 @@ public class SisalfaRepository {
                 challenge.setChallengeId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
                 challenge.setContextId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY)));
                 challenge.setUserId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
-                challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
+                challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_WORD)));
+                challenge.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 challenge.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
                 challenge.setVideoUrl(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
             }
@@ -342,9 +351,13 @@ public class SisalfaRepository {
                 challenge.setChallengeId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
                 challenge.setContextId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY)));
                 challenge.setUserId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
-                challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
+                challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_WORD)));
+                challenge.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 challenge.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
                 challenge.setVideoUrl(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
+                challenge.setCreatedAt(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CREATEDAT)));
+                challenge.setUpdatedAt(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_UPDATEDAT)));
+
                 challenges.add(challenge);
             } while (c.moveToNext());
         }
@@ -370,7 +383,8 @@ public class SisalfaRepository {
                 challenge.setChallengeId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
                 challenge.setContextId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY)));
                 challenge.setUserId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
-                challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
+                challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_WORD)));
+                challenge.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 challenge.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
                 challenge.setVideoUrl(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
                 challenges.add(challenge);

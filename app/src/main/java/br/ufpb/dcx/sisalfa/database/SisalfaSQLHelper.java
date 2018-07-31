@@ -11,7 +11,7 @@ public class SisalfaSQLHelper extends SQLiteOpenHelper {
     }
 
     // Name and version of the database
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "dbLiterarum";
 
     // Table names
@@ -30,6 +30,8 @@ public class SisalfaSQLHelper extends SQLiteOpenHelper {
 
     // SisContext specific column
     public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_CREATEDAT = "createdat";
+    public static final String COLUMN_UPDATEDAT = "updatedat";
 
     // User columns
     public static final String COLUMN_USERNAME = "user_name";
@@ -46,7 +48,7 @@ public class SisalfaSQLHelper extends SQLiteOpenHelper {
 
 
     private static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS "+ USER_TABLE +" (" +
-            COLUMN_PKEY_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_PKEY_ID +" INTEGER PRIMARY KEY, " +
             COLUMN_USERNAME + " TEXT NOT NULL UNIQUE, " +
             COLUMN_PASSWORD +" TEXT NOT NULL, "+
             COLUMN_EMAIL + " TEXT NOT NULL UNIQUE, " +
@@ -55,20 +57,24 @@ public class SisalfaSQLHelper extends SQLiteOpenHelper {
             COLUMN_PHOTO + " TEXT)";
 
     private static final String CREATE_CONTEXT_TABLE = "CREATE TABLE IF NOT EXISTS "+ CONTEXT_TABLE +" (" +
-            COLUMN_PKEY_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COLUMN_NAME + " TEXT NOT NULL UNIQUE, " +
+            COLUMN_PKEY_ID +" INTEGER, " +
+            COLUMN_NAME + " TEXT NOT NULL, " +
             COLUMN_IMAGE +" TEXT NOT NULL, "+
             COLUMN_SOUND + " TEXT, " +
             COLUMN_VIDEO + " TEXT, " +
+            COLUMN_CREATEDAT + " TEXT, " +
+            COLUMN_UPDATEDAT + " TEXT, " +
             COLUMN_USER_FKEY + " INTEGER NOT NULL)";
 
     private static final String CREATE_CHALLENGE_TABLE = "CREATE TABLE IF NOT EXISTS "+ CHALLENGE_TABLE +" (" +
-            COLUMN_PKEY_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_PKEY_ID +" INTEGER, " +
             COLUMN_WORD + " TEXT NOT NULL, " +
             COLUMN_IMAGE +" TEXT NOT NULL, "+
             COLUMN_SOUND + " TEXT, " +
             COLUMN_VIDEO + " TEXT, " +
             COLUMN_CONTEXT_FKEY + " INTEGER NOT NULL, " +
+            COLUMN_CREATEDAT + " TEXT, " +
+            COLUMN_UPDATEDAT + " TEXT, " +
             COLUMN_USER_FKEY + " INTEGER NOT NULL)";
 
     @Override

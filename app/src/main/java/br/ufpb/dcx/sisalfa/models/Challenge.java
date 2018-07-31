@@ -14,6 +14,8 @@ public class Challenge{
     private String sound;
     private String video;
     private String image;
+    private String createdAt;
+    private String updatedAt;
 
 
     public static final String DEFAULT_CHALLENGE_WORD = "Empty Challenge";
@@ -21,11 +23,11 @@ public class Challenge{
 
 
     public Challenge(){
-        this(DEFAULT_CHALLENGE_WORD, DEFAULT_CHALLENGE_ID, User.DEFAULT_USER_ID, SisContext.DEFAULT_CONTEXT_ID, null, null, null);
+        this(DEFAULT_CHALLENGE_WORD, DEFAULT_CHALLENGE_ID, User.DEFAULT_USER_ID, SisContext.DEFAULT_CONTEXT_ID, null, null, null, null, null);
     }
 
     public Challenge(String word,int id, int authorId, int contextId, String image,
-    String sound, String videoUrl) {
+    String sound, String videoUrl, String createdAt, String updatedAt) {
         super();
         this.word = word;
         this.id = id;
@@ -34,7 +36,42 @@ public class Challenge{
         this.image = image;
         this.sound = sound;
         this.video = videoUrl;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
 
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getAuthorId() {
+        return authorId;
+    }
+
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public void setVideoUrl(String videoUrl) {

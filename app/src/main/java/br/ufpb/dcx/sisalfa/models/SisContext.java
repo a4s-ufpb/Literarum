@@ -11,21 +11,25 @@ public class SisContext {
     private String image;
     private String sound;
     private String video;
+    private String createdAt;
+    private String updatedAt;
 
     public static final String DEFAULT_CONTEXT_NAME = "Empty Challenge";
     public static final int DEFAULT_CONTEXT_ID = -1;
 
     public SisContext() {
-        this(DEFAULT_CONTEXT_NAME, DEFAULT_CONTEXT_ID, User.DEFAULT_USER_ID, null,null,null);
+        this(DEFAULT_CONTEXT_NAME, DEFAULT_CONTEXT_ID, User.DEFAULT_USER_ID, null,null,null, null, null);
     }
 
-    public SisContext(String name, int id, int authorId, String image, String sound, String video) {
+    public SisContext(String name, int id, int authorId, String image, String sound, String video, String createdAt, String updatedAt) {
         this.name = name;
         this.id = id;
         this.authorId = authorId;
         this.image = image;
         this.sound = sound;
         this.video = video;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public String getName() {
@@ -74,6 +78,46 @@ public class SisContext {
 
     public void setVideoUrl(String video) {
         this.video = video;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getAuthorId() {
+        return authorId;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override

@@ -2,6 +2,7 @@ package br.ufpb.dcx.sisalfa.activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +44,10 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_themes);
         Typeface typeface = Typeface.createFromAsset(
                 getAssets(), "From Cartoon Blocks.ttf");
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         this.titleThemes = findViewById(R.id.titleTheme);
         titleThemes.setTypeface(typeface);
         this.fruitsIV = findViewById(R.id.fruitId);
@@ -61,7 +66,8 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
         this.fd = new FilledData(getApplicationContext());
 
         this.connectionAPI = new ConnectionAPI(getApplicationContext());
-        //connectionAPI.startContexts();
+        connectionAPI.startContexts();
+        connectionAPI.getChallengesByContextIdFromService();
         //connectionAPI.startChallenges();
         //connectionAPI.startUsers();
         //Log.i("TAG", "TESTE" + getDrawableId("purple"));

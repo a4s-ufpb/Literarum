@@ -13,19 +13,16 @@ import retrofit2.http.Path;
 
 public interface LiteracyAPI {
 
-    @GET("getAllContexts/")
+    @GET("contexts/")
     Call<List<SisContext>> getAllContexts();
 
-    @GET("getContextFromUser/ {userId}")
-    Call<SisContext> getContextFromUser(@Path("userId") long id);
+    @GET("challenges/{id}/context/")
+    Call<List<Challenge>> getChallengeByContext(@Path("id") long id);
 
     @GET("getContext/ {id}")
     Call<SisContext> getContext(@Path("id") long id);
 
-    @GET("getAllUsers/")
-    Call<List<User>> getAllUsers();
-
-    @GET("getAllChallenges/")
+    @GET("challenges")
     Call<List<Challenge>> getAllChallenges();
 }
 
