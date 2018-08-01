@@ -37,12 +37,12 @@ public class SisalfaRepository {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, user.getUserId());
-        cv.put(SisalfaSQLHelper.COLUMN_USERNAME, user.getUserName());
+        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, user.getId());
+        cv.put(SisalfaSQLHelper.COLUMN_USERNAME, user.getUsername());
         cv.put(SisalfaSQLHelper.COLUMN_PASSWORD, user.getPassword());
         cv.put(SisalfaSQLHelper.COLUMN_EMAIL, user.getEmail());
-        cv.put(SisalfaSQLHelper.COLUMN_FIRST_NAME, user.getFirst_name());
-        cv.put(SisalfaSQLHelper.COLUMN_LAST_NAME, user.getLast_name());
+        cv.put(SisalfaSQLHelper.COLUMN_FIRST_NAME, user.getFirstName());
+        cv.put(SisalfaSQLHelper.COLUMN_LAST_NAME, user.getLastName());
         cv.put(SisalfaSQLHelper.COLUMN_PHOTO, user.getPhoto());
         return db.insert(SisalfaSQLHelper.USER_TABLE, null, cv);
 
@@ -67,12 +67,12 @@ public class SisalfaRepository {
         User user = new User();
         if (c != null) {
             while (c.moveToNext()) {
-                user.setUserId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
-                user.setUserName(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USERNAME)));
+                user.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
+                user.setUsername(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USERNAME)));
                 user.setPassword((c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PASSWORD))));
                 user.setEmail(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_EMAIL)));
-                user.setFirst_name(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_FIRST_NAME)));
-                user.setLast_name(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_LAST_NAME)));
+                user.setFirstName(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_FIRST_NAME)));
+                user.setLastName(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_LAST_NAME)));
                 user.setPhoto(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PHOTO)));
             }
         }
@@ -97,12 +97,12 @@ public class SisalfaRepository {
         if (c.moveToFirst()) {
             do {
                 User user = new User();
-                user.setUserId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
-                user.setUserName(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USERNAME)));
+                user.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
+                user.setUsername(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USERNAME)));
                 user.setPassword((c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PASSWORD))));
                 user.setEmail(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_EMAIL)));
-                user.setFirst_name(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_FIRST_NAME)));
-                user.setLast_name(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_LAST_NAME)));
+                user.setFirstName(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_FIRST_NAME)));
+                user.setLastName(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_LAST_NAME)));
                 user.setPhoto(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PHOTO)));
                 users.add(user);
             } while (c.moveToNext());
@@ -123,17 +123,17 @@ public class SisalfaRepository {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, user.getUserId());
-        cv.put(SisalfaSQLHelper.COLUMN_USERNAME, user.getUserName());
+        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, user.getId());
+        cv.put(SisalfaSQLHelper.COLUMN_USERNAME, user.getUsername());
         cv.put(SisalfaSQLHelper.COLUMN_PASSWORD, user.getPassword());
         cv.put(SisalfaSQLHelper.COLUMN_EMAIL, user.getEmail());
-        cv.put(SisalfaSQLHelper.COLUMN_FIRST_NAME, user.getFirst_name());
-        cv.put(SisalfaSQLHelper.COLUMN_LAST_NAME, user.getLast_name());
+        cv.put(SisalfaSQLHelper.COLUMN_FIRST_NAME, user.getFirstName());
+        cv.put(SisalfaSQLHelper.COLUMN_LAST_NAME, user.getLastName());
         cv.put(SisalfaSQLHelper.COLUMN_PHOTO, user.getPhoto());
 
         return db.update(SisalfaSQLHelper.USER_TABLE, cv,
                 SisalfaSQLHelper.COLUMN_PKEY_ID + " = ?",
-                new String[] { String.valueOf(user.getUserId()) });
+                new String[] { String.valueOf(user.getId()) });
     }
 
 
@@ -160,14 +160,12 @@ public class SisalfaRepository {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, context.getContextId());
-        cv.put(SisalfaSQLHelper.COLUMN_USER_FKEY, context.getUserId());
+        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, context.getId());
+        cv.put(SisalfaSQLHelper.COLUMN_USER_FKEY, context.getAuthor());
         cv.put(SisalfaSQLHelper.COLUMN_NAME, context.getName());
         cv.put(SisalfaSQLHelper.COLUMN_IMAGE, context.getImage());
         cv.put(SisalfaSQLHelper.COLUMN_SOUND, context.getSound());
-        cv.put(SisalfaSQLHelper.COLUMN_VIDEO, context.getVideoUrl());
-        cv.put(SisalfaSQLHelper.COLUMN_CREATEDAT, context.getCreatedAt());
-        cv.put(SisalfaSQLHelper.COLUMN_UPDATEDAT, context.getUpdatedAt());
+        cv.put(SisalfaSQLHelper.COLUMN_VIDEO, context.getVideo());
         return db.insert(SisalfaSQLHelper.CONTEXT_TABLE, null, cv);
 
     }
@@ -191,12 +189,12 @@ public class SisalfaRepository {
         SisContext sisContext = new SisContext();
         if (c != null) {
             while (c.moveToNext()) {
-                sisContext.setContextId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
-                sisContext.setUserId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
+                sisContext.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
+                sisContext.setAuthor(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
                 sisContext.setName(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_NAME)));
                 sisContext.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 sisContext.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
-                sisContext.setVideoUrl(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
+                sisContext.setVideo(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
 
             }
         }
@@ -221,15 +219,12 @@ public class SisalfaRepository {
         if (c.moveToFirst()) {
             do {
                 SisContext sisContext = new SisContext();
-                sisContext.setContextId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
-                sisContext.setUserId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
+                sisContext.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
+                sisContext.setAuthor(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
                 sisContext.setName(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_NAME)));
                 sisContext.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 sisContext.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
-                sisContext.setVideoUrl(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
-                sisContext.setCreatedAt(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CREATEDAT)));
-                sisContext.setUpdatedAt(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_UPDATEDAT)));
-
+                sisContext.setVideo(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
                 sisContexts.add(sisContext);
             } while (c.moveToNext());
         }
@@ -249,16 +244,16 @@ public class SisalfaRepository {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, context.getContextId());
-        cv.put(SisalfaSQLHelper.COLUMN_USER_FKEY, context.getUserId());
+        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, context.getId());
+        cv.put(SisalfaSQLHelper.COLUMN_USER_FKEY, context.getAuthor());
         cv.put(SisalfaSQLHelper.COLUMN_NAME, context.getName());
         cv.put(SisalfaSQLHelper.COLUMN_IMAGE, context.getImage());
         cv.put(SisalfaSQLHelper.COLUMN_SOUND, context.getSound());
-        cv.put(SisalfaSQLHelper.COLUMN_VIDEO, context.getVideoUrl());
+        cv.put(SisalfaSQLHelper.COLUMN_VIDEO, context.getVideo());
 
         return db.update(SisalfaSQLHelper.CONTEXT_TABLE, cv,
                 SisalfaSQLHelper.COLUMN_PKEY_ID + " = ?",
-                new String[] { String.valueOf(context.getContextId()) });
+                new String[] { String.valueOf(context.getId()) });
     }
 
 
@@ -285,15 +280,14 @@ public class SisalfaRepository {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, challenge.getChallengeId());
-        cv.put(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY, challenge.getContextId());
-        cv.put(SisalfaSQLHelper.COLUMN_USER_FKEY, challenge.getUserId());
+        System.out.println("CRIANDO CHALLENGE, ID DO CONTEXTO: "+challenge.getContext().getId());
+        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, challenge.getId());
+        cv.put(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY, challenge.getContext().getId());
+        cv.put(SisalfaSQLHelper.COLUMN_USER_FKEY, challenge.getAuthor());
         cv.put(SisalfaSQLHelper.COLUMN_WORD, challenge.getWord());
         cv.put(SisalfaSQLHelper.COLUMN_IMAGE, challenge.getImage());
         cv.put(SisalfaSQLHelper.COLUMN_SOUND, challenge.getSound());
-        cv.put(SisalfaSQLHelper.COLUMN_VIDEO, challenge.getVideoUrl());
-        cv.put(SisalfaSQLHelper.COLUMN_UPDATEDAT, challenge.getUpdatedAt());
-        cv.put(SisalfaSQLHelper.COLUMN_CREATEDAT, challenge.getCreatedAt());
+        cv.put(SisalfaSQLHelper.COLUMN_VIDEO, challenge.getVideo());
 
         return db.insert(SisalfaSQLHelper.CHALLENGE_TABLE, null, cv);
 
@@ -318,13 +312,14 @@ public class SisalfaRepository {
         Challenge challenge = new Challenge();
         if (c != null) {
             while (c.moveToNext()) {
-                challenge.setChallengeId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
-                challenge.setContextId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY)));
-                challenge.setUserId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
+                SisContext sisContext = getContextrById((long)c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY)));
+                challenge.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
+                challenge.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
                 challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_WORD)));
                 challenge.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 challenge.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
-                challenge.setVideoUrl(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
+                challenge.setVideo(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
+                challenge.setContext(sisContext);
             }
         }
 
@@ -348,15 +343,16 @@ public class SisalfaRepository {
         if (c.moveToFirst()) {
             do {
                 Challenge challenge = new Challenge();
-                challenge.setChallengeId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
-                challenge.setContextId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY)));
-                challenge.setUserId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
+
+                challenge.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
+                challenge.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
                 challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_WORD)));
                 challenge.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 challenge.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
-                challenge.setVideoUrl(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
-                challenge.setCreatedAt(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CREATEDAT)));
-                challenge.setUpdatedAt(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_UPDATEDAT)));
+                challenge.setVideo(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
+
+                SisContext sisContext = getContextrById((long)c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY)));
+                challenge.setContext(sisContext);
 
                 challenges.add(challenge);
             } while (c.moveToNext());
@@ -380,17 +376,22 @@ public class SisalfaRepository {
         if (c.moveToFirst()) {
             do {
                 Challenge challenge = new Challenge();
-                challenge.setChallengeId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
-                challenge.setContextId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY)));
-                challenge.setUserId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
+                SisContext sisContext = getContextrById((long)c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY)));
+                System.out.println("Nome do contexto do GetChallengesBYID"+sisContext.getName());
+
+
+                challenge.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
+                challenge.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
                 challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_WORD)));
+                System.out.println("CHALLENGE DO GETCHABYID: " + c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_WORD)));
                 challenge.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 challenge.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
-                challenge.setVideoUrl(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
+                challenge.setVideo(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
+                challenge.setContext(sisContext);
                 challenges.add(challenge);
             } while (c.moveToNext());
         }
-
+        System.out.println("TAMANHO DA LISTA DO GETCHALLENGESBYID"+challenges.size());
         return challenges;
     }
 
@@ -406,17 +407,16 @@ public class SisalfaRepository {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, challenge.getChallengeId());
-        cv.put(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY, challenge.getContextId());
-        cv.put(SisalfaSQLHelper.COLUMN_USER_FKEY, challenge.getUserId());
+        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, challenge.getId());
+        cv.put(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY, challenge.getContext().getId());
+        cv.put(SisalfaSQLHelper.COLUMN_USER_FKEY, challenge.getAuthor());
         cv.put(SisalfaSQLHelper.COLUMN_WORD, challenge.getWord());
         cv.put(SisalfaSQLHelper.COLUMN_IMAGE, challenge.getImage());
         cv.put(SisalfaSQLHelper.COLUMN_SOUND, challenge.getSound());
-        cv.put(SisalfaSQLHelper.COLUMN_VIDEO, challenge.getVideoUrl());
-
+        cv.put(SisalfaSQLHelper.COLUMN_VIDEO, challenge.getVideo());
         return db.update(SisalfaSQLHelper.CHALLENGE_TABLE, cv,
                 SisalfaSQLHelper.COLUMN_PKEY_ID + " = ?",
-                new String[] { String.valueOf(challenge.getChallengeId()) });
+                new String[] { String.valueOf(challenge.getId()) });
     }
 
 

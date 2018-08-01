@@ -53,7 +53,7 @@ public class ConnectionAPI {
     }
 
     public void startContexts() {
-        Retrofit retrofit = retrofitBuilder(AndroidUtils.CONTEXTS_BASE_URL);
+        Retrofit retrofit = retrofitBuilder(AndroidUtils.BASE_URL);
         LiteracyAPI literacyAPI = retrofit.create(LiteracyAPI.class);
 
         Call<List<SisContext>> call = literacyAPI.getAllContexts();
@@ -69,13 +69,13 @@ public class ConnectionAPI {
             public void onResponse(Call<List<SisContext>> call, Response<List<SisContext>> response) {
                 if(response.isSuccessful()) {
                     List<SisContext> changesList = response.body();
-                    System.out.println(changesList.size());
+                    System.out.println("TAMANHO DOS CONTEXTOS" + changesList.size());
                     for(SisContext sc: changesList){
                         if(sisalfaRepository.getAllContexts().contains(sc)){
                             Log.i("TAG", "Object already exist.");
                         }
                         else{
-                            System.out.println("CRIANDO CONTEXTO: " + sc.getName());
+                            System.out.println("CRIANDO CONTEXTO: " + sc.getName()+ "ID" + sc.getId());
                             sisalfaRepository.createContext(sc);
                         }
                     }
@@ -94,7 +94,7 @@ public class ConnectionAPI {
     }
 
     public void getChallengesByContextIdFromService() {
-        Retrofit retrofit = retrofitBuilder(AndroidUtils.CONTEXTS_BASE_URL);
+        Retrofit retrofit = retrofitBuilder(AndroidUtils.BASE_URL);
         LiteracyAPI literacyAPI = retrofit.create(LiteracyAPI.class);
 
         Call<List<Challenge>> call = literacyAPI.getChallengeByContext(10);
@@ -131,7 +131,7 @@ public class ConnectionAPI {
 
 
     public void startChallenges() {
-        Retrofit retrofit = retrofitBuilder(AndroidUtils.CHALLENGES_BASE_URL);
+        Retrofit retrofit = retrofitBuilder(AndroidUtils.BASE_URL);
         LiteracyAPI literacyAPI = retrofit.create(LiteracyAPI.class);
 
         Call<List<Challenge>> call = literacyAPI.getAllChallenges();
@@ -141,11 +141,13 @@ public class ConnectionAPI {
                 if(response.isSuccessful()) {
                     List<Challenge> changesList = response.body();
                     for(Challenge c: changesList){
-                        if(sisalfaRepository.getAllContexts().contains(c)){
+                        if(sisalfaRepository.getAllChallenges().contains(c)){
                             Log.i("TAG", "Object already exist.");
                         }
                         else{
                             sisalfaRepository.createChallenge(c);
+                            System.out.println("CRIANDO DESAFIO: "+c.getWord()+ "CONTEXT ID"
+                                    + c.getContext().getId() + "Author ID: "+ c.getAuthor());
                         }
                     }
                 }else {

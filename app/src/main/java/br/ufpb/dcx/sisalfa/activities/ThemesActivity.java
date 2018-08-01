@@ -5,8 +5,7 @@ import android.graphics.Typeface;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.SurfaceView;
+
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -14,15 +13,12 @@ import android.widget.TextView;
 
 import com.example.rynzler.literarum.R;
 
-import java.util.List;
 
 import br.ufpb.dcx.sisalfa.connection.ConnectionAPI;
-import br.ufpb.dcx.sisalfa.database.FilledData;
 import br.ufpb.dcx.sisalfa.database.SisalfaRepository;
-import br.ufpb.dcx.sisalfa.models.Challenge;
+
 import br.ufpb.dcx.sisalfa.models.SisContext;
-import br.ufpb.dcx.sisalfa.models.User;
-import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaMockService;
+
 
 public class ThemesActivity extends AppCompatActivity implements View.OnClickListener{
     private ConnectionAPI connectionAPI;
@@ -33,7 +29,7 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView homeIV;
     private ImageView colorsIV;
     private ImageView bodyIV;
-    private FilledData fd;
+    private SisalfaRepository db;
 
 
     @Override
@@ -63,11 +59,11 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
         this.colorsIV = findViewById(R.id.colorsId);
         colorsIV.setOnClickListener(this);
 
-        this.fd = new FilledData(getApplicationContext());
+        this.db = new SisalfaRepository(this);
 
         this.connectionAPI = new ConnectionAPI(getApplicationContext());
         connectionAPI.startContexts();
-        connectionAPI.getChallengesByContextIdFromService();
+        connectionAPI.startChallenges();
         //connectionAPI.startChallenges();
         //connectionAPI.startUsers();
         //Log.i("TAG", "TESTE" + getDrawableId("purple"));
@@ -91,7 +87,7 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
                 it.putExtra("theme", 4);
                 break;
             case R.id.fruitId:
-                it.putExtra("theme", 5);
+                it.putExtra("theme", 10);
                 break;
             case R.id.homeId:
                 it.putExtra("theme", 6);
@@ -100,6 +96,12 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
         System.out.println(it.getIntExtra("theme", -1));
         startActivity(it);
 
+    }
+
+    public void displayContextsOnScreen(){
+        for (SisContext sc: db.getAllContexts()){
+
+        }
     }
 
     private int getDrawableId(String drawableName){

@@ -1,7 +1,6 @@
 package br.ufpb.dcx.sisalfa.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.RemoteException;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
@@ -18,12 +17,8 @@ import com.example.rynzler.literarum.R;
 
 import br.ufpb.dcx.sisalfa.database.SisalfaRepository;
 import br.ufpb.dcx.sisalfa.models.Challenge;
-import br.ufpb.dcx.sisalfa.sisalfaservice.FilledSisalfaMockService;
-import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaMockService;
-import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaService;
 import br.ufpb.dcx.sisalfa.util.AndroidUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,8 +84,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent it = getIntent();
         this.themeID = it.getIntExtra("theme", -1);
+        System.out.println(themeID);
         this.challengesList = db.getChallengesByContext(themeID);
-        System.out.println("TESTE CHALLENGES"+ challengesList.size());
+        System.out.println("TAMANHO" + db.getChallengesByContext(themeID).size());
+
+
 
 
         try {
@@ -103,6 +101,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
 
     @Override
     public void onClick(View view) {
@@ -121,7 +120,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.firstIV:
                 try {
-                    checkAnswer((Integer) firstIV.getTag());
+                    checkAnswer((long) firstIV.getTag());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 } catch (IOException io){
@@ -130,7 +129,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.secondIV:
                 try {
-                    checkAnswer((Integer) secondIV.getTag());
+                    checkAnswer((long) secondIV.getTag());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }  catch (IOException io){
@@ -139,7 +138,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.thirdIV:
                 try {
-                    checkAnswer((Integer) thirdIV.getTag());
+                    checkAnswer((long) thirdIV.getTag());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 } catch (IOException io){
@@ -150,7 +149,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void checkAnswer(int id) throws RemoteException, IOException {
+    private void checkAnswer(long id) throws RemoteException, IOException {
         if(id != challengeTextViewID){
             clearHeartView();
             Toast.makeText(getApplicationContext(), "Errado!", Toast.LENGTH_SHORT).show();
@@ -188,18 +187,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private int displayChallengeOnScreen() throws RemoteException, IOException {
         randomChallenges(themeID);
 
-        firstIV.setImageURI(AndroidUtils.extractUri(challengesList.get(0).getImage()));
-        firstIV.setTag(challengesList.get(challenges.get(0)).getChallengeId());
+        firstIV.setImageBitmap(AndroidUtils.convertImageLinkToBitmap(challengesList.get(0).getImage()));
+        firstIV.setTag(challengesList.get(challenges.get(0)).getId());
 
-        secondIV.setImageURI(AndroidUtils.extractUri(challengesList.get(1).getImage()));
-        secondIV.setTag(challengesList.get(challenges.get(1)).getChallengeId());
+        secondIV.setImageBitmap(AndroidUtils.convertImageLinkToBitmap(challengesList.get(1).getImage()));
+        secondIV.setTag(challengesList.get(challenges.get(1)).getId());
 
-        thirdIV.setImageURI(AndroidUtils.extractUri(challengesList.get(2).getImage()));
-        thirdIV.setTag(challengesList.get(challenges.get(2)).getChallengeId());
+        thirdIV.setImageBitmap(AndroidUtils.convertImageLinkToBitmap(challengesList.get(2).getImage()));
+        thirdIV.setTag(challengesList.get(challenges.get(2)).getId());
 
         int rnd = new Random().nextInt(3);
         wordTV.setText(String.valueOf(challengesList.get(challenges.get(rnd)).getWord()));
-        int challengeID = challengesList.get(rnd).getChallengeId();
+        int challengeID = (int)challengesList.get(rnd).getId();
 
         return challengeID;
 

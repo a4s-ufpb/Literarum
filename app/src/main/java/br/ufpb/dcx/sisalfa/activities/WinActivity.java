@@ -8,9 +8,6 @@ import android.util.DisplayMetrics;
 
 import com.example.rynzler.literarum.R;
 
-import br.ufpb.dcx.sisalfa.sisalfaservice.FilledSisalfaMockService;
-import br.ufpb.dcx.sisalfa.sisalfaservice.SisalfaService;
-
 public class WinActivity extends AppCompatActivity implements Runnable {
 
     @Override
