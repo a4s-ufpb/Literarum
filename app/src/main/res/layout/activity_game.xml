@@ -88,16 +88,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:src="@drawable/brown"/>
+            />
         <ImageView
-            android:src="@drawable/black"
+
             android:id="@+id/secondIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="5dp"/>
         <ImageView
-            android:src="@drawable/gray"
+
             android:id="@+id/thirdIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

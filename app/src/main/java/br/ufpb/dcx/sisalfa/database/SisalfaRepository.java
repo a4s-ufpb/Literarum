@@ -5,12 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.ufpb.dcx.sisalfa.models.Challenge;
+import br.ufpb.dcx.sisalfa.models.SelectedContexModel;
 import br.ufpb.dcx.sisalfa.models.SisContext;
 import br.ufpb.dcx.sisalfa.models.User;
+import br.ufpb.dcx.sisalfa.util.AndroidUtils;
 
 public class SisalfaRepository {
 
@@ -26,14 +30,9 @@ public class SisalfaRepository {
     }
 
 
-    /**
-     *Create a databse table of an user.
-     *
-     * @param user object to get the data.
-     * @return the user table ID.
-     */
 
-    public long createUser(User user){
+
+    /*public long createUser(User user){
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
@@ -46,7 +45,7 @@ public class SisalfaRepository {
         cv.put(SisalfaSQLHelper.COLUMN_PHOTO, user.getPhoto());
         return db.insert(SisalfaSQLHelper.USER_TABLE, null, cv);
 
-    }
+    }/*
 
 
     /**
@@ -56,7 +55,7 @@ public class SisalfaRepository {
      * @return return an user object.
      */
 
-    public User getUserById(long userId){
+  /*  public User getUserById(long userId){
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + SisalfaSQLHelper.USER_TABLE + " WHERE "
@@ -80,11 +79,7 @@ public class SisalfaRepository {
         return user;
     }
 
-    /**
-     * Returns a list with all users.
-     *
-     * @return returns an list of all users.
-     */
+
 
     public List<User> getAllUsers(){
         List<User> users = new ArrayList<>();
@@ -112,12 +107,7 @@ public class SisalfaRepository {
     }
 
 
-    /**
-     *Update the user informations.
-     *
-     * @param user the user object.
-     * @return returns the user updated.
-     */
+
 
     public int updateUser(User user){
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -137,33 +127,24 @@ public class SisalfaRepository {
     }
 
 
-    /**
-     *Delete am user by his id.
-     *
-     * @param userId the user id that will be deleted.
-     */
+
 
     public void deleteUser(long userId){
         SQLiteDatabase db = helper.getWritableDatabase();
         db.delete(SisalfaSQLHelper.USER_TABLE, SisalfaSQLHelper.COLUMN_PKEY_ID +
                 " = ?", new String[]{ String.valueOf(userId)});
-    }
+    }*/
 
 
-    /**
-     * Create a context table.
-     *
-     * @param context
-     * @return
-     */
-    public long createContext(SisContext context){
+
+    public long createContext(SisContext context) throws IOException {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
         cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, context.getId());
         cv.put(SisalfaSQLHelper.COLUMN_USER_FKEY, context.getAuthor());
         cv.put(SisalfaSQLHelper.COLUMN_NAME, context.getName());
-        cv.put(SisalfaSQLHelper.COLUMN_IMAGE, context.getImage());
+        cv.put(SisalfaSQLHelper.COLUMN_IMAGE, context.getImageBytes());
         cv.put(SisalfaSQLHelper.COLUMN_SOUND, context.getSound());
         cv.put(SisalfaSQLHelper.COLUMN_VIDEO, context.getVideo());
         return db.insert(SisalfaSQLHelper.CONTEXT_TABLE, null, cv);
@@ -192,12 +173,14 @@ public class SisalfaRepository {
                 sisContext.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
                 sisContext.setAuthor(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
                 sisContext.setName(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_NAME)));
-                sisContext.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
+                sisContext.setImageBytes(c.getBlob(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 sisContext.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
                 sisContext.setVideo(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
 
             }
         }
+        if(c != null)
+            c.close();
 
         return sisContext;
     }
@@ -222,12 +205,14 @@ public class SisalfaRepository {
                 sisContext.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
                 sisContext.setAuthor(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
                 sisContext.setName(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_NAME)));
-                sisContext.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
+                sisContext.setImageBytes(c.getBlob(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 sisContext.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
                 sisContext.setVideo(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
                 sisContexts.add(sisContext);
             } while (c.moveToNext());
         }
+
+        c.close();
 
         return sisContexts;
     }
@@ -240,14 +225,15 @@ public class SisalfaRepository {
      * @return returns the context updated.
      */
 
-    public int updateContext(SisContext context){
+    public int updateContext(SisContext context) throws IOException {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
         cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, context.getId());
         cv.put(SisalfaSQLHelper.COLUMN_USER_FKEY, context.getAuthor());
         cv.put(SisalfaSQLHelper.COLUMN_NAME, context.getName());
-        cv.put(SisalfaSQLHelper.COLUMN_IMAGE, context.getImage());
+        cv.put(SisalfaSQLHelper.COLUMN_IMAGE,
+                AndroidUtils.convertImageLinkToByteArray(context.getImage()));
         cv.put(SisalfaSQLHelper.COLUMN_SOUND, context.getSound());
         cv.put(SisalfaSQLHelper.COLUMN_VIDEO, context.getVideo());
 
@@ -276,16 +262,15 @@ public class SisalfaRepository {
      * @param challenge
      * @return
      */
-    public long createChallenge(Challenge challenge){
+    public long createChallenge(Challenge challenge) throws IOException {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        System.out.println("CRIANDO CHALLENGE, ID DO CONTEXTO: "+challenge.getContext().getId());
         cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, challenge.getId());
         cv.put(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY, challenge.getContext().getId());
         cv.put(SisalfaSQLHelper.COLUMN_USER_FKEY, challenge.getAuthor());
         cv.put(SisalfaSQLHelper.COLUMN_WORD, challenge.getWord());
-        cv.put(SisalfaSQLHelper.COLUMN_IMAGE, challenge.getImage());
+        cv.put(SisalfaSQLHelper.COLUMN_IMAGE, challenge.getImageBytes());
         cv.put(SisalfaSQLHelper.COLUMN_SOUND, challenge.getSound());
         cv.put(SisalfaSQLHelper.COLUMN_VIDEO, challenge.getVideo());
 
@@ -316,12 +301,14 @@ public class SisalfaRepository {
                 challenge.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
                 challenge.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
                 challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_WORD)));
-                challenge.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
+                challenge.setImageBytes(c.getBlob(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 challenge.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
                 challenge.setVideo(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
                 challenge.setContext(sisContext);
             }
         }
+        if(c != null)
+            c.close();
 
         return challenge;
     }
@@ -345,9 +332,9 @@ public class SisalfaRepository {
                 Challenge challenge = new Challenge();
 
                 challenge.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
-                challenge.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
+                challenge.setAuthor(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
                 challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_WORD)));
-                challenge.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
+                challenge.setImageBytes(c.getBlob(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 challenge.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
                 challenge.setVideo(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
 
@@ -356,7 +343,11 @@ public class SisalfaRepository {
 
                 challenges.add(challenge);
             } while (c.moveToNext());
+
         }
+
+        c.close();
+
 
 
 
@@ -381,10 +372,10 @@ public class SisalfaRepository {
 
 
                 challenge.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_PKEY_ID)));
-                challenge.setId(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
+                challenge.setAuthor(c.getInt(c.getColumnIndex(SisalfaSQLHelper.COLUMN_USER_FKEY)));
                 challenge.setWord(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_WORD)));
-                System.out.println("CHALLENGE DO GETCHABYID: " + c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_WORD)));
-                challenge.setImage(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
+                
+                challenge.setImageBytes(c.getBlob(c.getColumnIndex(SisalfaSQLHelper.COLUMN_IMAGE)));
                 challenge.setSound(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_SOUND)));
                 challenge.setVideo(c.getString(c.getColumnIndex(SisalfaSQLHelper.COLUMN_VIDEO)));
                 challenge.setContext(sisContext);
@@ -392,6 +383,8 @@ public class SisalfaRepository {
             } while (c.moveToNext());
         }
         System.out.println("TAMANHO DA LISTA DO GETCHALLENGESBYID"+challenges.size());
+        c.close();
+        closeDB();
         return challenges;
     }
 
@@ -403,7 +396,7 @@ public class SisalfaRepository {
      * @return returns the context updated.
      */
 
-    public int updateChallenge(Challenge challenge){
+    public int updateChallenge(Challenge challenge) throws IOException {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
@@ -411,7 +404,8 @@ public class SisalfaRepository {
         cv.put(SisalfaSQLHelper.COLUMN_CONTEXT_FKEY, challenge.getContext().getId());
         cv.put(SisalfaSQLHelper.COLUMN_USER_FKEY, challenge.getAuthor());
         cv.put(SisalfaSQLHelper.COLUMN_WORD, challenge.getWord());
-        cv.put(SisalfaSQLHelper.COLUMN_IMAGE, challenge.getImage());
+        cv.put(SisalfaSQLHelper.COLUMN_IMAGE,
+                AndroidUtils.convertImageLinkToByteArray(challenge.getImage()));
         cv.put(SisalfaSQLHelper.COLUMN_SOUND, challenge.getSound());
         cv.put(SisalfaSQLHelper.COLUMN_VIDEO, challenge.getVideo());
         return db.update(SisalfaSQLHelper.CHALLENGE_TABLE, cv,
@@ -430,6 +424,21 @@ public class SisalfaRepository {
         SQLiteDatabase db = helper.getWritableDatabase();
         db.delete(SisalfaSQLHelper.CHALLENGE_TABLE, SisalfaSQLHelper.COLUMN_PKEY_ID +
                 " = ?", new String[]{ String.valueOf(challengeId)});
+    }
+
+    public void createSelectedContexts(SelectedContexModel selectedContexModel){
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(SisalfaSQLHelper.COLUMN_PKEY_ID, selectedContexModel.getId());
+        cv.put(SisalfaSQLHelper.COLUMN__COUNT, selectedContexModel.getCount());
+        cv.put(SisalfaSQLHelper.COLUMN_FIRST_CTX, selectedContexModel.getFirstSelectedContextId());
+        cv.put(SisalfaSQLHelper.COLUMN_SECOND_CTX, selectedContexModel.getSecondSelectedContextId());
+        cv.put(SisalfaSQLHelper.COLUMN_THIRD_CTX, selectedContexModel.getThirdSelectedContextId());
+        cv.put(SisalfaSQLHelper.COLUMN_FOURTH_CTX, selectedContexModel.getFourthSelectedContextId());
+        cv.put(SisalfaSQLHelper.COLUMN_FIFTH_CTX, selectedContexModel.getFifthSelectedContextId());
+        cv.put(SisalfaSQLHelper.COLUMN_SIXTH_CTX, selectedContexModel.getSisxthSelectedContextId());
+        db.insert(SisalfaSQLHelper.CHALLENGE_TABLE, null, cv);
     }
 
     public void closeDB() {

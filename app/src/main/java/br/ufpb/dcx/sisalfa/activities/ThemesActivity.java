@@ -2,6 +2,7 @@ package br.ufpb.dcx.sisalfa.activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,21 +15,30 @@ import android.widget.TextView;
 import com.example.rynzler.literarum.R;
 
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import br.ufpb.dcx.sisalfa.connection.ConnectionAPI;
+import br.ufpb.dcx.sisalfa.database.FilledData;
 import br.ufpb.dcx.sisalfa.database.SisalfaRepository;
 
 import br.ufpb.dcx.sisalfa.models.SisContext;
+import br.ufpb.dcx.sisalfa.util.AndroidUtils;
 
 
 public class ThemesActivity extends AppCompatActivity implements View.OnClickListener{
+    private ImageView configButton;
     private ConnectionAPI connectionAPI;
     private TextView titleThemes;
-    private ImageView fruitsIV;
-    private ImageView professionsIV;
-    private ImageView animalsIV;
-    private ImageView homeIV;
-    private ImageView colorsIV;
-    private ImageView bodyIV;
+    private List<ImageView> contextsViews;
+    private ImageView firstIV;
+    private ImageView secondIV;
+    private ImageView thirdIV;
+    private ImageView fourthIV;
+    private ImageView fifthIV;
+    private ImageView sixthIV;
     private SisalfaRepository db;
 
 
@@ -43,30 +53,34 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
         StrictMode.ThreadPolicy policy = new
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        this.configButton = findViewById(R.id.configButton);
 
         this.titleThemes = findViewById(R.id.titleTheme);
         titleThemes.setTypeface(typeface);
-        this.fruitsIV = findViewById(R.id.fruitId);
-        fruitsIV.setOnClickListener(this);
-        this.professionsIV = findViewById(R.id.professionsId);
-        professionsIV.setOnClickListener(this);
-        this.animalsIV = findViewById(R.id.animalsId);
-        animalsIV.setOnClickListener(this);
-        this.homeIV = findViewById(R.id.homeId);
-        homeIV.setOnClickListener(this);
-        this.bodyIV =  findViewById(R.id.bodyId);
-        bodyIV.setOnClickListener(this);
-        this.colorsIV = findViewById(R.id.colorsId);
-        colorsIV.setOnClickListener(this);
+        this.firstIV = findViewById(R.id.view1Id);
+        firstIV.setOnClickListener(this);
+        this.secondIV = findViewById(R.id.view2Id);
+        secondIV.setOnClickListener(this);
+        this.thirdIV = findViewById(R.id.view3Id);
+        thirdIV.setOnClickListener(this);
+        this.fourthIV = findViewById(R.id.view4Id);
+        fourthIV.setOnClickListener(this);
+        this.fifthIV =  findViewById(R.id.view5Id);
+        fifthIV.setOnClickListener(this);
+        this.sixthIV = findViewById(R.id.view6Id);
+        sixthIV.setOnClickListener(this);
+
+        this.contextsViews = new ArrayList<>
+                (Arrays.asList(firstIV, secondIV, thirdIV, fourthIV, fifthIV, sixthIV));
 
         this.db = new SisalfaRepository(this);
 
         this.connectionAPI = new ConnectionAPI(getApplicationContext());
-        connectionAPI.startContexts();
-        connectionAPI.startChallenges();
-        //connectionAPI.startChallenges();
-        //connectionAPI.startUsers();
-        //Log.i("TAG", "TESTE" + getDrawableId("purple"));
+
+
+       displayContextsOnScreen();
+
+
 
     }
 
@@ -74,39 +88,62 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         Intent it = new Intent(this, GameActivity.class);
         switch (view.getId()){
-            case R.id.bodyId:
-                it.putExtra("theme", 1);
+            case R.id.view1Id:
+                it.putExtra("theme", (int) firstIV.getTag());
                 break;
-            case R.id.animalsId:
-                it.putExtra("theme", 2);
+            case R.id.view2Id:
+                it.putExtra("theme", (int) secondIV.getTag());
                 break;
-            case R.id.colorsId:
-                it.putExtra("theme", 3);
+            case R.id.view3Id:
+                it.putExtra("theme", (int) thirdIV.getTag());
                 break;
-            case R.id.professionsId:
-                it.putExtra("theme", 4);
+            case R.id.view4Id:
+                it.putExtra("theme", (int) fourthIV.getTag());
                 break;
-            case R.id.fruitId:
-                it.putExtra("theme", 10);
+            case R.id.view5Id:
+                it.putExtra("theme", (int) fifthIV.getTag());
                 break;
-            case R.id.homeId:
-                it.putExtra("theme", 6);
+            case R.id.view6Id:
+                it.putExtra("theme", (int) sixthIV.getTag());
                 break;
         }
-        System.out.println(it.getIntExtra("theme", -1));
         startActivity(it);
 
     }
+    public void configStarter(View view){
+        startActivity(new Intent(this, ConfigActivity.class));
+    }
 
     public void displayContextsOnScreen(){
-        for (SisContext sc: db.getAllContexts()){
-
+        int aux = 0;
+        if(db.getAllContexts() != null){
+            for (SisContext sc: db.getAllContexts()){
+                if(aux == 6){
+                    break;
+                }contextsViews.get(aux).setImageBitmap(AndroidUtils.ByteArrayToBitmap(sc.getImageBytes()));
+                contextsViews.get(aux).setTag(sc.getId());
+                aux++;
+            }
         }
-    }
-
-    private int getDrawableId(String drawableName){
-        return getResources().getIdentifier(drawableName , "drawable", getPackageName());
 
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        db.closeDB();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        db.closeDB();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.closeDB();
+    }
 }

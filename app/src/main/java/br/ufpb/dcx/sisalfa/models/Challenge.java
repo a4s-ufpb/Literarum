@@ -5,32 +5,42 @@ package br.ufpb.dcx.sisalfa.models;
  */
 public class Challenge {
 
-    private long id;
+    private int id;
     private String word;
     private String image;
     private String sound;
     private String video;
     private long author;
     private SisContext context;
+    private transient byte[] imageBytes;
 
-    public Challenge(long id, String word, String image, String sound, String video, long author) {
+    public Challenge(int id, String word, String image, String sound, String video, long author,byte[] imageBytes) {
         this.id = id;
         this.word = word;
         this.image = image;
         this.sound = sound;
         this.video = video;
         this.author = author;
+        this.imageBytes = imageBytes;
     }
 
     public Challenge(){
 
     }
 
-    public long getId() {
+    public byte[] getImageBytes() {
+        return imageBytes;
+    }
+
+    public void setImageBytes(byte[] imageBytes) {
+        this.imageBytes = imageBytes;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

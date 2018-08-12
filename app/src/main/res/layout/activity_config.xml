@@ -14,11 +14,5 @@
         android:layout_height="wrap_content"
         android:text=" Importar Temas " />
 
-    <Button
-        android:id="@+id/cadastrarDesafios"
-        android:layout_toEndOf="@id/impTemas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cadastrar Desafios" />
 
 </RelativeLayout>

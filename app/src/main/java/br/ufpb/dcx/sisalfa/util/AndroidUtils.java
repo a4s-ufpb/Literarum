@@ -4,14 +4,18 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.speech.tts.TextToSpeech;
 import android.util.Base64;
+import android.util.Size;
 import android.widget.Toast;
 
 import com.example.rynzler.literarum.BuildConfig;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import java.io.File;
@@ -31,43 +35,45 @@ public class AndroidUtils {
 
     }
 
-    public static Uri extractUri (String imagePath) throws IOException {
-        Uri path = Uri.parse("android.resource://"+ BuildConfig.APPLICATION_ID+"/" + imagePath);
-        return path;
-    }
-
-
-
-    public static Bitmap pathToBitmap(String path){
-        Bitmap bmImg = BitmapFactory.decodeFile(path);
-        return bmImg;
-    }
-
-    public static String BitmapToBase64(Bitmap bitmap) {
+    public static byte[] drawableToByteArray(Context ctx, int id){
+        Bitmap bitmap = BitmapFactory.decodeResource(ctx.getResources(), id);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-        byte[] byteArray = stream.toByteArray();
-        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        return encoded;
+        bitmap.compress(Bitmap.CompressFormat.PNG, 70, stream);
+        byte[] bitMapData = stream.toByteArray();
+        return bitMapData;
+
     }
+
+
+
+
+
+
 
     // convert from byte array to bitmap
-    public static Bitmap convertImageLinkToBitmap(String link) throws IOException {
+    public static byte[] convertImageLinkToByteArray(String link) throws IOException {
         URL url = new URL(link);
         Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        return bmp;
-    }
-
-    public static String drawableToBase64(Resources r, int id){
-        Bitmap bitmapOrg = BitmapFactory.decodeResource(r,  id);
-        ByteArrayOutputStream bao = new ByteArrayOutputStream();
-        bitmapOrg.compress(Bitmap.CompressFormat.JPEG, 100, bao);
-        byte [] ba = bao.toByteArray();
-        return Base64.encodeToString(ba,Base64.DEFAULT);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        bmp.recycle();
+        stream.close();
+        return byteArray;
     }
 
 
 
+    public static Bitmap ByteArrayToBitmap(byte[] byteArray)
+    {
+        ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(byteArray);
+        Bitmap bitmap = BitmapFactory.decodeStream(arrayInputStream);
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, false);
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 70, outStream);
+        return bitmap;
+    }
 
 
 

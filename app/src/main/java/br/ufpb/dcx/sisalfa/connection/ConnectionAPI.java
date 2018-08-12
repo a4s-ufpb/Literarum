@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Path;
 
-public class ConnectionAPI {
+public  class ConnectionAPI {
 
     private SisalfaRepository sisalfaRepository;
 
@@ -57,39 +58,31 @@ public class ConnectionAPI {
         LiteracyAPI literacyAPI = retrofit.create(LiteracyAPI.class);
 
         Call<List<SisContext>> call = literacyAPI.getAllContexts();
-        /*try{
+
+        try{
             List<SisContext> changesList = call.execute().body();
-           // System.out.println(changesList.get(0).getName());
-        }catch (IOException io){
-            io.printStackTrace();
-        }*/
-
-        call.enqueue(new Callback<List<SisContext>>() {
-            @Override
-            public void onResponse(Call<List<SisContext>> call, Response<List<SisContext>> response) {
-                if(response.isSuccessful()) {
-                    List<SisContext> changesList = response.body();
-                    System.out.println("TAMANHO DOS CONTEXTOS" + changesList.size());
-                    for(SisContext sc: changesList){
-                        if(sisalfaRepository.getAllContexts().contains(sc)){
-                            Log.i("TAG", "Object already exist.");
-                        }
-                        else{
-                            System.out.println("CRIANDO CONTEXTO: " + sc.getName()+ "ID" + sc.getId());
-                            sisalfaRepository.createContext(sc);
-                        }
+            for(SisContext sc: changesList){
+                if(sisalfaRepository.getAllContexts().contains(sc)){
+                    Log.i("TAG", "Object already exist.");
+                }
+                else{
+                    System.out.println("CRIANDO CONTEXTO: " + sc.getName()+ "ID" + sc.getId());
+                    try {
+                        sc.setImageBytes(AndroidUtils.convertImageLinkToByteArray(sc.getImage()));
+                        sisalfaRepository.createContext(sc);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-
-                } else {
-                    System.out.println(response.errorBody());
                 }
             }
+        }catch (IOException io){
+            io.printStackTrace();
+        }
 
-            @Override
-            public void onFailure(Call<List<SisContext>> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+        finally {
+            sisalfaRepository.closeDB();
+        }
+
 
     }
 
@@ -103,14 +96,18 @@ public class ConnectionAPI {
             public void onResponse(Call<List<Challenge>> call, Response<List<Challenge>> response) {
                 if(response.isSuccessful()) {
                     List<Challenge> challenges = response.body();
-                    System.out.println(" TAMANHO DOS DESAFIOS. "+ challenges.size());
+
                     for(Challenge c: challenges){
                         if(sisalfaRepository.getAllChallenges().contains(c)){
                             Log.i("TAG", "Object already exist.");
                         }
                         else{
-                            System.out.println("CRIANDO DESAFIO. " + c.getWord());
-                            sisalfaRepository.createChallenge(c);
+                            System.out.println("CRIANDO DESAFIO. " + c.getWord() + "ID"+ c.getId());
+                            try {
+                                sisalfaRepository.createChallenge(c);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }else{
@@ -135,31 +132,27 @@ public class ConnectionAPI {
         LiteracyAPI literacyAPI = retrofit.create(LiteracyAPI.class);
 
         Call<List<Challenge>> call = literacyAPI.getAllChallenges();
-        call.enqueue(new Callback<List<Challenge>>() {
-            @Override
-            public void onResponse(Call<List<Challenge>> call, Response<List<Challenge>> response) {
-                if(response.isSuccessful()) {
-                    List<Challenge> changesList = response.body();
-                    for(Challenge c: changesList){
-                        if(sisalfaRepository.getAllChallenges().contains(c)){
-                            Log.i("TAG", "Object already exist.");
-                        }
-                        else{
-                            sisalfaRepository.createChallenge(c);
-                            System.out.println("CRIANDO DESAFIO: "+c.getWord()+ "CONTEXT ID"
-                                    + c.getContext().getId() + "Author ID: "+ c.getAuthor());
-                        }
+        try {
+            List<Challenge> changesList = call.execute().body();
+            for(Challenge c: changesList){
+                if(sisalfaRepository.getAllChallenges().contains(c)){
+                    Log.i("TAG", "Object already exist.");
+                }
+                else{
+                    try {
+                        c.setImageBytes(AndroidUtils.convertImageLinkToByteArray(c.getImage()));
+                        sisalfaRepository.createChallenge(c);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }else {
-                    System.out.println(response.errorBody());
+                    System.out.println("CRIANDO DESAFIO: "+c.getWord()+ "ID: "+c.getId());
                 }
             }
-
-            @Override
-            public void onFailure(Call<List<Challenge>> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            sisalfaRepository.closeDB();
+        }
 
     }
 }

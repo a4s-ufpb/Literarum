@@ -6,20 +6,22 @@ package br.ufpb.dcx.sisalfa.models;
 
 public class SisContext {
 
-    private long id;
+    private int id;
     private String name;
     private String image;
     private String sound;
     private String video;
     private long author;
+    private transient byte[] imageBytes;
 
-    public SisContext(long id, String name, String image, String sound, String video, long author) {
+    public SisContext(int id, String name, String image, String sound, String video, long author, byte[] imageBytes) {
         this.id = id;
         this.name = name;
         this.image = image;
         this.sound = sound;
         this.video = video;
         this.author = author;
+        this.imageBytes = imageBytes;
     }
 
 
@@ -60,11 +62,11 @@ public class SisContext {
         this.video = video;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -80,4 +82,11 @@ public class SisContext {
         return Long.toString(this.id);
     }
 
+    public byte[] getImageBytes() {
+        return imageBytes;
+    }
+
+    public void setImageBytes(byte[] imageBytes) {
+        this.imageBytes = imageBytes;
+    }
 }
