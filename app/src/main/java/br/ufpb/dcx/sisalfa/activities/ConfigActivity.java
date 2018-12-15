@@ -3,6 +3,7 @@ package br.ufpb.dcx.sisalfa.activities;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import br.ufpb.dcx.sisalfa.connection.ConnectionAPI;
 
 public class ConfigActivity extends AppCompatActivity implements View.OnClickListener {
     private Button importarTemas;
+    private Button verTemas;
     private ProgressDialog pd;
     private Context context;
     private ConnectionAPI connectionAPI;
@@ -24,6 +26,7 @@ public class ConfigActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
+        this.verTemas = findViewById(R.id.verTemas);
         this.importarTemas = findViewById(R.id.impTemas);
         importarTemas.setOnClickListener(this);
         this.connectionAPI = new ConnectionAPI(this);
@@ -76,5 +79,9 @@ public class ConfigActivity extends AppCompatActivity implements View.OnClickLis
 
         };
         task.execute((Void[]) null);
+    }
+
+    public void temas(View view){
+        startActivity(new Intent(this, ContextsList.class));
     }
 }

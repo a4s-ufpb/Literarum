@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rynzler.literarum">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,8 +15,9 @@
         <activity
             android:name="br.ufpb.dcx.sisalfa.activities.GameActivity"
             android:configChanges="orientation|screenSize" />
-        <activity android:name="br.ufpb.dcx.sisalfa.activities.ThemesActivity"
-            android:screenOrientation="landscape"/>
+        <activity
+            android:name="br.ufpb.dcx.sisalfa.activities.ThemesActivity"
+            android:screenOrientation="landscape" />
         <activity
             android:name="br.ufpb.dcx.sisalfa.activities.SplashActivity"
             android:screenOrientation="portrait">
@@ -29,10 +30,19 @@
         <activity
             android:name="br.ufpb.dcx.sisalfa.activities.PopUp"
             android:theme="@style/AppTheme.CustomTheme" />
-        <activity android:name="br.ufpb.dcx.sisalfa.activities.WinActivity" />
-        <activity android:name="br.ufpb.dcx.sisalfa.activities.LoseActivity" />
-        <activity android:name="br.ufpb.dcx.sisalfa.activities.ConfigActivity" />
+        <activity
+            android:name="br.ufpb.dcx.sisalfa.activities.WinActivity"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity
+            android:name="br.ufpb.dcx.sisalfa.activities.LoseActivity"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity android:name="br.ufpb.dcx.sisalfa.activities.ConfigActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name="br.ufpb.dcx.sisalfa.activities.RegisterThemes" />
+        <activity android:name="br.ufpb.dcx.sisalfa.activities.ContextsList" />
+        <activity
+            android:name="br.ufpb.dcx.sisalfa.activities.themeHelp"
+            android:theme="@style/AppTheme.CustomTheme" />
     </application>
 
 </manifest>

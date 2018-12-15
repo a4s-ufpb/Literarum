@@ -27,13 +27,6 @@ public class AndroidUtils {
 
     public static final String BASE_URL = "https://app.sisalfa.dcx.ufpb.br/v1/api/";
 
-    public static void speakOut(String text, int result, Context ctx, TextToSpeech tts){
-        if (result == TextToSpeech.LANG_MISSING_DATA ||result == TextToSpeech.LANG_NOT_SUPPORTED)
-            Toast.makeText(ctx, "Feature not supported " + "in your device.", Toast.LENGTH_SHORT).show();
-        else
-            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-
-    }
 
     public static byte[] drawableToByteArray(Context ctx, int id){
         Bitmap bitmap = BitmapFactory.decodeResource(ctx.getResources(), id);

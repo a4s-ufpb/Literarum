@@ -63,11 +63,6 @@
             android:textSize="30sp"
             android:textStyle="bold" />
         <ImageView
-            android:id="@+id/btnPlay"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_play" />
-        <ImageView
             android:id="@+id/btnHelp"
             android:layout_width="60dp"
             android:layout_height="60dp"

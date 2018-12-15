@@ -16,14 +16,15 @@ import br.ufpb.dcx.sisalfa.database.SisalfaRepository;
 import br.ufpb.dcx.sisalfa.models.Challenge;
 import br.ufpb.dcx.sisalfa.util.AndroidUtils;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener{
-
-    public static final String FEATURE_NOT_SUPPORTED = "Feature not supported in your device.";
-
+    private int correctAnswers = 0;
+    private int wrongAnswers = 0;
+    private int count = 0;
     private ImageView firstIV;
     private ImageView secondIV;
     private ImageView thirdIV;
@@ -38,8 +39,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private int progressStatus = 0;
     private int challengeTextViewID;
     private int heartCount = 0;
-    private TextToSpeech textToSpeech;
-    private int result;
 
 
     @Override
@@ -51,8 +50,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(new Intent(this, PopUp.class));
 
         //get the components reference from XML layout.
-        ImageView playIV = findViewById(R.id.btnPlay);
-        playIV.setOnClickListener(this);
         this.wordTV = findViewById(R.id.textView);
         this.firstIV = findViewById(R.id.firstIV);
         firstIV.setOnClickListener(this);
@@ -74,12 +71,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         this.thirdHeart = findViewById(R.id.imageView3);
 
         SisalfaRepository db = new SisalfaRepository(getApplicationContext());
-
-
-        progressBar.setMax(10);
-        textToSpeechConverter();
-
-
         Intent it = getIntent();
         int themeID = it.getIntExtra("theme", -1);
         System.out.println(themeID);
@@ -88,6 +79,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
         this.challengeTextViewID = displayChallengeOnScreen();
+        progressBar.setMax(challengesList.size());
+        System.out.println(challengesList.size());
 
 
 
@@ -100,12 +93,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.btnHelp:
                 startActivity(new Intent(this, PopUp.class));
-                break;
-            case R.id.btnPlay:
-                AndroidUtils.speakOut(String.valueOf(wordTV.getText()),
-                        result,
-                        getApplicationContext(),
-                        textToSpeech);
                 break;
             case R.id.btnBack:
                 startActivity(new Intent(this, ThemesActivity.class));
@@ -125,22 +112,31 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkAnswer(int id)  {
         if(id != challengeTextViewID){
+            wrongAnswers += 1;
             clearHeartView();
-            Toast.makeText(getApplicationContext(), "Errado!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Continue tentando!", Toast.LENGTH_SHORT).show();
         }else{
+            correctAnswers += 1;
             progressBar();
-            Toast.makeText(getApplicationContext(), "Correto!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Brilhante!", Toast.LENGTH_SHORT).show();
             challengeTextViewID = displayChallengeOnScreen();
         }
 
     }
     public void progressBar() {
-        if(progressStatus < 10){
-            progressStatus += 1;
-            progressBar.setProgress(progressStatus);
-        }else{
+        progressStatus += 1;
+        count+=1;
+        progressBar.setProgress(progressStatus);
+        if(progressStatus == challengesList.size()){
+            progressBar.setProgress(0);
+            Intent it = new Intent(this, WinActivity.class);
+            it.putExtra("ca", correctAnswers);
+            it.putExtra("cn", challengesList.size());
+            it.putExtra("wa", wrongAnswers);
+            startActivity(it);
             progressStatus = 0;
-            startActivity(new Intent(this, WinActivity.class));
+            count = 0;
+
         }
     }
 
@@ -160,7 +156,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private int displayChallengeOnScreen() {
         randomChallenges();
-
+        Collections.shuffle(challenges);
         firstIV.setImageBitmap(AndroidUtils.ByteArrayToBitmap(challengesList.get(challenges.get(0)).getImageBytes()));
         firstIV.setTag(challengesList.get(challenges.get(0)).getId());
 
@@ -177,17 +173,20 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         System.out.println("ID DO DESAFIO 3: " +challengesList.get(challenges.get(2)).getId());
 
         int rnd = new Random().nextInt(3);
-        wordTV.setText(String.valueOf(challengesList.get(challenges.get(rnd)).getWord()));
+        wordTV.setText(String.valueOf(challengesList.get(count).getWord()));
 
         System.out.println("ID retornado: " + challengesList.get(challenges.get(rnd)).getId());
 
-        return challengesList.get(challenges.get(rnd)).getId();
+        return challengesList.get(count).getId();
 
     }
 
     private void randomChallenges() {
         this.challenges = new ArrayList<>(3);
-        for(int k = 0; k < 3; ){
+        challenges.add(count);
+        System.out.println(count);
+        System.out.println(progressStatus);
+        for(int k = 0; k < 2; ){
             int rnd = new Random()
                     .nextInt(challengesList.size());
 
@@ -200,34 +199,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void textToSpeechConverter(){
-        textToSpeech = new TextToSpeech(GameActivity.this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status == TextToSpeech.SUCCESS)
-                    result = textToSpeech.setLanguage(Locale.US);
-                else{
-                    Toast.makeText(getApplicationContext(), FEATURE_NOT_SUPPORTED, Toast.LENGTH_SHORT).show();
 
-                }
-            }
-
-        });
-        result = 0;
-    }
-
-    @Override
-    protected void onDestroy() {
-
-
-        //Close the Text to Speech Library
-        if(textToSpeech != null) {
-
-            textToSpeech.stop();
-            textToSpeech.shutdown();
-            Log.d("TAG", "TTS Destroyed");
-        }
-        super.onDestroy();
-    }
 
 }

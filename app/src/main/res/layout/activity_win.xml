@@ -6,14 +6,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/colorPrimaryDark"
+    android:background="@drawable/popup_bg"
     tools:context="br.ufpb.dcx.sisalfa.activities.PopUp">
+
     <TextView
+        android:layout_margin="20dp"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:typeface="monospace"
-        android:textSize="100px"
-        android:text="Você venceu!"/>
+        android:textSize="70px"
+        android:text="@string/win_msg"/>
+    <TextView
+        android:textSize="40px"
+        android:id="@+id/stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Você obteve x acertos de x desafios."
+        android:layout_marginBottom="20dp"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/homewinbtn"
+            android:layout_marginRight="50dp"
+            android:src="@drawable/baseline_home_black_18dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+        <ImageView
+            android:id="@+id/tryagainwinbtn"
+            android:src="@drawable/tryagain"
+            android:layout_width="40dp"
+            android:layout_height="50dp" />
+    </LinearLayout>
+
+
 
 </LinearLayout>

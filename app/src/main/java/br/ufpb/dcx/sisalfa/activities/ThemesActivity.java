@@ -30,15 +30,26 @@ import br.ufpb.dcx.sisalfa.util.AndroidUtils;
 
 public class ThemesActivity extends AppCompatActivity implements View.OnClickListener{
     private ImageView configButton;
+    private ImageView btnHelp;
     private ConnectionAPI connectionAPI;
     private TextView titleThemes;
-    private List<ImageView> contextsViews;
-    private ImageView firstIV;
-    private ImageView secondIV;
-    private ImageView thirdIV;
-    private ImageView fourthIV;
-    private ImageView fifthIV;
-    private ImageView sixthIV;
+    private List<ImageView> contextsImages;
+    private List<TextView> contextsNames;
+    private ImageView firstIV,
+            secondIV,
+            thirdIV,
+            fourthIV,
+            fifthIV,
+            sixthIV;
+
+
+    private TextView firstTV,
+            secondTV,
+            thirdTV,
+            fourthTV,
+            fifthTV,
+            sixthTV;
+
     private SisalfaRepository db;
 
 
@@ -48,15 +59,14 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_themes);
-        Typeface typeface = Typeface.createFromAsset(
-                getAssets(), "From Cartoon Blocks.ttf");
         StrictMode.ThreadPolicy policy = new
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         this.configButton = findViewById(R.id.configButton);
+        this.btnHelp = findViewById(R.id.btnHelp);
+
 
         this.titleThemes = findViewById(R.id.titleTheme);
-        titleThemes.setTypeface(typeface);
         this.firstIV = findViewById(R.id.view1Id);
         firstIV.setOnClickListener(this);
         this.secondIV = findViewById(R.id.view2Id);
@@ -70,8 +80,17 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
         this.sixthIV = findViewById(R.id.view6Id);
         sixthIV.setOnClickListener(this);
 
-        this.contextsViews = new ArrayList<>
+        this.firstTV = findViewById(R.id.txt1Id);
+        this.secondTV = findViewById(R.id.txt2Id);
+        this.thirdTV = findViewById(R.id.txt3Id);
+        this.fourthTV = findViewById(R.id.txt4Id);
+        this.fifthTV = findViewById(R.id.txt5Id);
+        this.sixthTV = findViewById(R.id.txt6Id);
+
+        this.contextsImages = new ArrayList<>
                 (Arrays.asList(firstIV, secondIV, thirdIV, fourthIV, fifthIV, sixthIV));
+        this.contextsNames = new ArrayList<>
+                (Arrays.asList(firstTV, secondTV, thirdTV, fourthTV, fifthTV, sixthTV));
 
         this.db = new SisalfaRepository(this);
 
@@ -113,6 +132,9 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
     public void configStarter(View view){
         startActivity(new Intent(this, ConfigActivity.class));
     }
+    public void helpThemes(View view){
+        startActivity(new Intent(this, themeHelp.class));
+    }
 
     public void displayContextsOnScreen(){
         int aux = 0;
@@ -120,8 +142,9 @@ public class ThemesActivity extends AppCompatActivity implements View.OnClickLis
             for (SisContext sc: db.getAllContexts()){
                 if(aux == 6){
                     break;
-                }contextsViews.get(aux).setImageBitmap(AndroidUtils.ByteArrayToBitmap(sc.getImageBytes()));
-                contextsViews.get(aux).setTag(sc.getId());
+                }contextsImages.get(aux).setImageBitmap(AndroidUtils.ByteArrayToBitmap(sc.getImageBytes()));
+                contextsNames.get(aux).setText(sc.getName().toUpperCase());
+                contextsImages.get(aux).setTag(sc.getId());
                 aux++;
             }
         }

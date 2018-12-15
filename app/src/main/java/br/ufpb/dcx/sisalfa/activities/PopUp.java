@@ -1,5 +1,6 @@
 package br.ufpb.dcx.sisalfa.activities;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,7 +8,7 @@ import android.util.DisplayMetrics;
 
 import com.example.rynzler.literarum.R;
 
-public class PopUp extends AppCompatActivity implements Runnable{
+public class PopUp extends Activity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,14 +20,8 @@ public class PopUp extends AppCompatActivity implements Runnable{
         int heigth = dm.heightPixels;
         getWindow().setLayout((int) (width*.8), (int) (heigth*.6));
 
-        Handler handler = new Handler();
-        handler.postDelayed(this, 3000);
+
 
     }
 
-    @Override
-    public void run() {
-        finish();
-
-    }
 }

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Literarum</string>
+    <string name="lose_msg">NÃO DESANIME E CONTINUE TENTANDO!</string>
+    <string name="game_help">SELECIONE A IMAGEM QUE CORRESPONDE AO ÁUDIO.</string>
+    <string name="themes_help">ESCOLHA UM TEMA PARA COMEÇAR OS DESAFIOS.</string>
+    <string name="win_msg">CONTINUE PRATICANDO!</string>
+    <string name="touch_outside">Toque fora da janela para sair.</string>
 </resources>

@@ -301,7 +301,7 @@ public class FilledData {
             Challenge c10 = new Challenge();
             c10.setId(8888);
             c10.setContext(sisContext);
-            c10.setWord("Lemure");
+            c10.setWord("Lêmure");
             c10.setImageBytes(AndroidUtils.drawableToByteArray(this.ctx, R.drawable.lemure));
             aux.add(c10);
 

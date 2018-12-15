@@ -5,14 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:background="@drawable/popup_bg"
     tools:context="br.ufpb.dcx.sisalfa.activities.PopUp">
     <TextView
+        android:textColor="#FFFFFF"
+        android:gravity="center"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:typeface="monospace"
         android:textSize="100px"
-        android:text="Você perdeu!"/>
+        android:text="@string/lose_msg"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="30px"
+        android:text="@string/touch_outside"/>
 
 </LinearLayout>
